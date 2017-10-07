@@ -3,6 +3,15 @@ package txtshuffle;
 import java.util.ArrayList;
 
 
+
+
+// TODO machinery for applying an 'order vector' (a.k.a. a 'useful' vector)
+// TODO machinery to discover the order vector for an array of unique comparable values
+// TODO machinery to compose order vectors? invert them?
+
+
+
+
 // TODO assert well-formed useful vectors. No repetition, no out-of-bounds values.
 
 // TODO eliminate pointless intermediate ArrayLists and boxing
