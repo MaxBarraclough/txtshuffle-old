@@ -3,6 +3,8 @@ package txtshuffle;
 import java.util.ArrayList;
 
 
+// TODO assert well-formed useful vectors. No repetition, no out-of-bounds values.
+
 // TODO eliminate pointless intermediate ArrayLists and boxing
 
 public final class VectorConversions {
@@ -59,9 +61,7 @@ public final class VectorConversions {
 	}
 
 
-
-
-
+// // TODO separate method for compact vector verification, for use by asserts
 
 	/**
 	 *
@@ -92,6 +92,9 @@ public final class VectorConversions {
 	}
 
 
+
+	// TODO avoid linear-time horrors in this one, using AVL tree list
+
 	/**
 	 *
 	 * @param usefulVector
@@ -109,7 +112,7 @@ public final class VectorConversions {
 			workingVector.add(i);
 		}
 
-		final ArrayList<Integer> outputVector = new ArrayList<Integer>(sz - 1);
+		final ArrayList<Integer> outputVector = new ArrayList<Integer>(sz);
 
 		for (int i = 0; i != sz; ++i)
 		{
@@ -121,6 +124,8 @@ public final class VectorConversions {
 			outputVector.add(indexIntoWorkingVec);
 			workingVector.remove(indexIntoWorkingVec);
 		}
+
+		assert(workingVector.isEmpty());
 
 		// // // CHECK INVARIANTS tick through and ensure monotonic 'narrowing' is as expected
 
@@ -153,4 +158,50 @@ public final class VectorConversions {
 
 		return outArr;
 	}
+
+
+
+	public static int[] compactToUseful(int[] compactVector)
+	{
+		// // // TODO assert compactness
+
+		// First set up the vector augmentation, as with usefulToCompact
+		// TODO comment this properly
+		final int sz = compactVector.length;
+
+		// TODO this is a disastrous choice of data structure!
+		// An 'AVL tree list' would make more sense.
+		final ArrayList<Integer> workingVector = new ArrayList<Integer>(sz);
+
+		for (int i = 0; i != sz; ++i)
+		{
+			workingVector.add(i);
+		}
+
+		final ArrayList<Integer> outputVector = new ArrayList<Integer>(sz);
+
+
+		for (int indexIntoCompactVec = 0; indexIntoCompactVec != sz; ++indexIntoCompactVec)
+		{
+			final int indexIntoWorkingVec = compactVector[indexIntoCompactVec];
+			final int val = workingVector.get(indexIntoWorkingVec);
+			outputVector.add(val);
+			workingVector.remove(indexIntoWorkingVec);
+		}
+
+		assert(workingVector.isEmpty());
+
+		// Clumsily convert from List<Integer> to int[]
+
+		final int outSz = outputVector.size();
+		final int[] outArr = new int[outSz];
+		for(int i = 0; i != outSz; ++i)
+		{
+			outArr[i] = outputVector.get(i);
+		}
+
+		return outArr;
+	}
+
+
 }
