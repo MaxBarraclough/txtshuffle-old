@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 // TODO eliminate pointless intermediate ArrayLists and boxing
 
+// TODO move away from int and to either long or BigNumber
+
 public final class VectorConversions {
 
 	/***

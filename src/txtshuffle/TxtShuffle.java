@@ -121,7 +121,15 @@ public final class TxtShuffle {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		final int[] usefulArr = new int[] {1,2,0};
+		// final int[] usefulArr = new int[] {1,2,0};
+
+
+		// causes our int accumulator variables to overflow, seemingly
+//		final int[] usefulArr = new int[]
+//				{10, 15, 23, 14, 12, 16, 28, 18, 24, 21, 20, 4, 29, 19, 9, 13, 17, 22, 8, 2, 3, 0, 27, 26, 6, 25, 7, 1, 5, 11};
+
+		final int[] usefulArr = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1};
+
 
 		final int[] outputCompactArr = VectorConversions.usefulToCompact(usefulArr);
 
@@ -143,5 +151,7 @@ public final class TxtShuffle {
 		final String toPrint3 = Arrays.toString(backToUsefulFromCompact);
 		System.out.println(toPrint3);
 	}
+
+
 
 }
