@@ -132,6 +132,11 @@ public final class TxtShuffle {
 		final int outputInt = VectorConversions.compactVectorToInt(outputCompactArr);
 
 		System.out.println(outputInt);
+
+
+		final int[] backToCompactVector = VectorConversions.intToCompactVector(outputCompactArr.length, outputInt);
+		final String toPrint2 = Arrays.toString(backToCompactVector);
+		System.out.println(toPrint2);
 	}
 
 }

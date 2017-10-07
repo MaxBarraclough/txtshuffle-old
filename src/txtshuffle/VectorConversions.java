@@ -2,7 +2,66 @@ package txtshuffle;
 
 import java.util.ArrayList;
 
+
+// TODO eliminate pointless intermediate ArrayLists and boxing
+
 public final class VectorConversions {
+
+	/***
+	 *
+	 * @param extent
+	 * Vector size
+	 * @param theInt
+	 * @return
+	 */
+	public static int[] intToCompactVector(final int extent, final int theInt)
+	{
+		int acc = theInt;
+		int card = 1;
+
+		// build up this AL 'backwards' then reverse as we copy across to an array
+		final ArrayList<Integer> al = new ArrayList<Integer>(extent);
+
+		for (int i = 0; i != extent; ++i)
+		{
+			assert(card <= extent);
+			assert(card >= 0);
+			assert(acc >= 0);
+
+			final int temp = acc % card;
+			// first time round we do x%1 (yielding zero, of course), which is fine
+
+			al.add(temp);
+
+			acc -= temp;
+
+			assert(acc >= 0);
+
+			acc /= card; // first time round, divides by 1, which is fine
+
+
+			++card;
+		}
+
+
+		// reverse the order as we return
+
+		final int[] ret = new int[al.size()];
+		final int lastIndex = ret.length - 1;
+
+		for (int i = 0; i != ret.length; ++i)
+		{
+			int oppositeEnd = lastIndex - i;
+			ret[i] = al.get(oppositeEnd);
+		}
+
+		return ret;
+	}
+
+
+
+
+
 
 	/**
 	 *
@@ -13,6 +72,8 @@ public final class VectorConversions {
 	 */
 	public static int compactVectorToInt(final int[] compactVector)
 	{
+		assert(0 == compactVector[compactVector.length - 1]);
+
 		final int stopBefore = compactVector.length - 1;
 		// omit last element in the compact vector, by stopping *before* the last element's index
 
