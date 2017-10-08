@@ -95,7 +95,8 @@ public final class TxtShuffleTests {
 	@Test
 	public final void encodeIntoDataAndRetrieve_FineGrain() throws IOException, NumberTooGreatException
 	{
-		final BigInteger secretNum = BigInteger.valueOf(7);
+		final BigInteger secretNum = new BigInteger("1233211000123456789000230696474742");
+				// BigInteger.valueOf(1233211230696474742L);
 
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
