@@ -39,7 +39,7 @@ public final class TxtShuffle {
 	}
 
 
-	public static void throwNtgeIfTooGreat(final int numToEncode, final int vecLength) throws NumberTooGreatException
+	public static void throwNtgeIfTooGreat(final int vecLength, final int numToEncode) throws NumberTooGreatException
 	{
 		boolean numberIsOk = false;
 
@@ -68,7 +68,7 @@ public final class TxtShuffle {
 	{
 		final String[] strs = TxtShuffle.readFileIntoStringArr(filePath);
 
-		throwNtgeIfTooGreat(secretNum, strs.length);
+		throwNtgeIfTooGreat(strs.length, secretNum);
 
 		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
 		final int[] useful = VectorConversions.compactToUseful(compact);

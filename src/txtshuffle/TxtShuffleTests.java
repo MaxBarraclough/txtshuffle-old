@@ -90,7 +90,7 @@ public final class TxtShuffleTests {
 
 
 	@Test
-	public final void encodeIntoDataAndRetrieve_FineGrain() throws IOException
+	public final void encodeIntoDataAndRetrieve_FineGrain() throws IOException, NumberTooGreatException
 	{
 		final int secretNum = 7; // // TODO figure out maximum number we can encode + enforce
 

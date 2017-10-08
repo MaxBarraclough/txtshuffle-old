@@ -89,7 +89,7 @@ public final class VectorConversions {
 	 */
 	public static int[] intToCompactVector(final int extent, final int theInt) throws NumberTooGreatException
 	{
-		TxtShuffle.throwNtgeIfTooGreat(theInt, extent);
+		TxtShuffle.throwNtgeIfTooGreat(extent, theInt);
 
 		int acc = theInt;
 		int card = 1;
