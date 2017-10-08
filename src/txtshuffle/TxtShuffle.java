@@ -113,7 +113,7 @@ public final class TxtShuffle {
 		}
 
 		// Inverse
-		final int[] ret = TxtShuffle.reverseOrderMap(unboxedArr);
+		final int[] ret = TxtShuffle.inverseOrderMap(unboxedArr);
 
 		return ret;
 	}
@@ -121,7 +121,7 @@ public final class TxtShuffle {
 
 
 	// TODO move to some other class?
-	public static int[] reverseOrderMap(final int[] orderMap)
+	public static int[] inverseOrderMap(final int[] orderMap)
 	{
 		assert( VectorConversions.isValidUsefulVector(orderMap) );
 

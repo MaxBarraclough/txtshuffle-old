@@ -11,7 +11,7 @@ import java.util.ArrayList;
 // TODO machinery to discover the order vector for an array of unique comparable values
 // TODO machinery to compose order vectors? invert them?
 
-
+// TODO composition of order maps. Is this preferable to repeated transformations? Probably about the same...
 
 
 // TODO assert well-formed useful vectors. No repetition, no out-of-bounds values.

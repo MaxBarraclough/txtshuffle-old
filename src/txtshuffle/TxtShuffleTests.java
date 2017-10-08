@@ -34,13 +34,13 @@ public final class TxtShuffleTests {
 
 		final int[] usefulArr = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // non involutory
 
-		final int[] reversed = TxtShuffle.reverseOrderMap(usefulArr);
+		final int[] reversed = TxtShuffle.inverseOrderMap(usefulArr);
 
 		final boolean shouldBeFalse = java.util.Arrays.equals(usefulArr, reversed);
 
 		org.junit.Assert.assertFalse(shouldBeFalse);
 
-		final int[] backAgain = TxtShuffle.reverseOrderMap(reversed);
+		final int[] backAgain = TxtShuffle.inverseOrderMap(reversed);
 
 		org.junit.Assert.assertArrayEquals(usefulArr, backAgain);
 
@@ -66,11 +66,68 @@ public final class TxtShuffleTests {
 
 		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
 
-		final int[] reversedOrderMap = TxtShuffle.reverseOrderMap(orderMapForFilesOrder);
+		final int[] reversedOrderMap = TxtShuffle.inverseOrderMap(orderMapForFilesOrder);
 		final String[] strsUnsorted = strs.clone();
 		TxtShuffle.applyOrderMapToStringArr(strsUnsorted, reversedOrderMap);
 
 		org.junit.Assert.assertArrayEquals(strs, strsUnsorted);
+	}
+
+
+
+	@Test
+	public final void bigTest() throws IOException
+	{
+		final int secretNum = 7; // // TODO figure out maximum number we can encode + enforce
+
+		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
+
+		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
+		final int[] useful = VectorConversions.compactToUseful(compact);
+
+		// final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs); // NO! not needed for the encode direction, only for decode!
+
+		final String[] strsSorted = strs.clone();
+		java.util.Arrays.sort(strsSorted);
+
+		final String[] strsEncodingNum = TxtShuffle.applyOrderMapToStringArr(strsSorted, useful);
+
+		{
+			final boolean shouldBeFalse = java.util.Arrays.equals(strs, strsEncodingNum);
+			org.junit.Assert.assertFalse(shouldBeFalse);
+		}
+
+		{
+			final boolean shouldBeFalse = java.util.Arrays.equals(strsSorted, strsEncodingNum);
+			org.junit.Assert.assertFalse(shouldBeFalse);
+		}
+
+// Now let's go back and retrieve the number
+
+		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingOrderMap(strsEncodingNum);
+
+		final int[] retrievedUseful = TxtShuffle.inverseOrderMap(retrievedSortingOrderMap);
+
+		org.junit.Assert.assertArrayEquals(retrievedUseful, useful);
+
+		final int[] retrievedCompact = VectorConversions.usefulToCompact(retrievedUseful);
+
+		org.junit.Assert.assertArrayEquals(compact, retrievedCompact);
+
+		final int retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
+
+		org.junit.Assert.assertEquals(secretNum, retrievedNum);
+
+//		final String[] strsAfterSortingOrder =
+//		  TxtShuffle.applyOrderMapToStringArr(strs, orderMapForFilesOrder);
+//
+//		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
+//
+//		final int[] reversedOrderMap = TxtShuffle.inverseOrderMap(orderMapForFilesOrder);
+//		final String[] strsUnsorted = strs.clone();
+//		TxtShuffle.applyOrderMapToStringArr(strsUnsorted, reversedOrderMap);
+
+
 	}
 
 }
