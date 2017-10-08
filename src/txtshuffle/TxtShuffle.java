@@ -15,8 +15,6 @@ public final class TxtShuffle {
 	// TODO if we care more about fast decode than fast encode,
 	// we should do the inverseOrderMap on the encode side, not on the decode side
 
-	// TODO terminology: is this 'swizzling'?
-
 
 	public final static class NumberTooGreatException extends Exception
 	{
@@ -71,7 +69,7 @@ public final class TxtShuffle {
 		throwNtgeIfTooGreat(strs.length, secretNum);
 
 		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
-		final int[] useful = VectorConversions.compactToUseful(compact);
+		final int[] useful = VectorConversions.compactToSwizzle(compact);
 
 		// final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs);
 		// No! Not needed for the encode direction, only for decode.
@@ -91,7 +89,7 @@ public final class TxtShuffle {
 
 		final int[] retrievedUseful = TxtShuffle.inverseOrderMap(retrievedSortingOrderMap);
 
-		final int[] retrievedCompact = VectorConversions.usefulToCompact(retrievedUseful);
+		final int[] retrievedCompact = VectorConversions.swizzleToCompact(retrievedUseful);
 
 		final int retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
 
@@ -215,7 +213,7 @@ public final class TxtShuffle {
 	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
 	public static int[] inverseOrderMap(final int[] orderMap)
 	{
-		assert( VectorConversions.isValidUsefulVector(orderMap) );
+		assert( VectorConversions.isValidSwizzleVector(orderMap) );
 
 		final int[] reversed = new int[orderMap.length];
 
@@ -238,7 +236,7 @@ public final class TxtShuffle {
 	public static String[] applyOrderMapToStringArr(final String[] input, final int[] orderMap)
 	{
 		assert(input.length == orderMap.length); // explodes if either is null
-		assert(VectorConversions.isValidUsefulVector(orderMap));
+		assert(VectorConversions.isValidSwizzleVector(orderMap));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];

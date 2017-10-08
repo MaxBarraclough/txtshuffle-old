@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import txtshuffle.TxtShuffle.NumberTooGreatException;
 
 
-// TODO consistent terminology: 'order map' or 'useful vector'?
-
 // TODO no-allocate versions of the methods?
 
 // TODO machinery for applying an 'order vector' (a.k.a. a 'useful' vector)
@@ -16,7 +14,7 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 // TODO composition of order maps. Is this preferable to repeated transformations? Probably about the same...
 
 
-// TODO assert well-formed useful vectors. No repetition, no out-of-bounds values.
+// TODO assert well-formed swizzle vectors. No repetition, no out-of-bounds values.
 
 // TODO eliminate pointless intermediate ArrayLists and boxing
 
@@ -30,8 +28,7 @@ public final class VectorConversions {
 	private VectorConversions() {}
 
 
-
-	public static boolean isValidUsefulVector(int[] vec)
+	public static boolean isValidSwizzleVector(int[] vec)
 	{
 		boolean ret = true;
 
@@ -40,7 +37,6 @@ public final class VectorConversions {
 		System.arraycopy(vec, 0, copy, 0, vec.length);
 
 		java.util.Arrays.sort(copy);
-
 
 		for (int i = 0; i != copy.length; ++i)
 		{
@@ -53,6 +49,7 @@ public final class VectorConversions {
 
 		return ret;
 	}
+
 
 	public static boolean isValidCompactVector(int[] vec)
 	{
@@ -170,15 +167,11 @@ public final class VectorConversions {
 
 	// TODO avoid linear-time horrors in this one, using AVL tree list
 
-	/**
-	 *
-	 * @param usefulVector
-	 */
-	public static int[] usefulToCompact(final int[] usefulVector)
+	public static int[] swizzleToCompact(final int[] swizzleVec)
 	{
-		assert(isValidUsefulVector(usefulVector)); // TODO should conditionally throw?
+		assert(isValidSwizzleVector(swizzleVec)); // TODO should conditionally throw?
 
-		final int sz = usefulVector.length;
+		final int sz = swizzleVec.length;
 
 		// TODO this is a disastrous choice of data structure!
 		// An 'AVL tree list' would make more sense.
@@ -193,7 +186,7 @@ public final class VectorConversions {
 
 		for (int i = 0; i != sz; ++i)
 		{
-			final int searchingFor = usefulVector[i];
+			final int searchingFor = swizzleVec[i];
 			final int indexIntoWorkingVec = workingVector.indexOf(searchingFor);
 
 			assert(indexIntoWorkingVec >= 0);
@@ -234,7 +227,7 @@ public final class VectorConversions {
 
 
 
-	public static int[] compactToUseful(int[] compactVector)
+	public static int[] compactToSwizzle(int[] compactVector)
 	{
 		assert(isValidCompactVector(compactVector));
 
@@ -273,7 +266,7 @@ public final class VectorConversions {
 			outArr[i] = outputVector.get(i);
 		}
 
-		assert(isValidUsefulVector(outArr));
+		assert(isValidSwizzleVector(outArr));
 
 		return outArr;
 	}

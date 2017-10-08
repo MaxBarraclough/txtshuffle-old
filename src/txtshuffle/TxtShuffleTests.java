@@ -97,7 +97,7 @@ public final class TxtShuffleTests {
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
 		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
-		final int[] useful = VectorConversions.compactToUseful(compact);
+		final int[] useful = VectorConversions.compactToSwizzle(compact);
 
 		// final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs); // NO! not needed for the encode direction, only for decode!
 
@@ -124,7 +124,7 @@ public final class TxtShuffleTests {
 
 		org.junit.Assert.assertArrayEquals(retrievedUseful, useful);
 
-		final int[] retrievedCompact = VectorConversions.usefulToCompact(retrievedUseful);
+		final int[] retrievedCompact = VectorConversions.swizzleToCompact(retrievedUseful);
 
 		org.junit.Assert.assertArrayEquals(compact, retrievedCompact);
 
