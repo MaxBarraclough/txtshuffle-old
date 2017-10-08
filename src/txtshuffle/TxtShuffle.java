@@ -152,39 +152,9 @@ public final class TxtShuffle {
 	 * 2.   Consulting the order-map and the now-sorted annotated array, write the output data
 	 */
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		// final int[] usefulArr = new int[] {1,2,0};
-
-
-		// causes our int accumulator variables to overflow, seemingly
-//		final int[] usefulArr = new int[]
-//				{10, 15, 23, 14, 12, 16, 28, 18, 24, 21, 20, 4, 29, 19, 9, 13, 17, 22, 8, 2, 3, 0, 27, 26, 6, 25, 7, 1, 5, 11};
-
-		final int[] usefulArr = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1};
-
-
-		final int[] outputCompactArr = VectorConversions.usefulToCompact(usefulArr);
-
-		final String toPrint1 = Arrays.toString(outputCompactArr);
-
-		System.out.println(toPrint1);
-
-		final int outputInt = VectorConversions.compactVectorToInt(outputCompactArr);
-
-		System.out.println(outputInt);
-
-
-		final int[] backToCompactFromInt = VectorConversions.intToCompactVector(outputCompactArr.length, outputInt);
-		final String toPrint2 = Arrays.toString(backToCompactFromInt);
-		System.out.println(toPrint2);
-
-
-		final int[] backToUsefulFromCompact = VectorConversions.compactToUseful(outputCompactArr);
-		final String toPrint3 = Arrays.toString(backToUsefulFromCompact);
-		System.out.println(toPrint3);
-	}
+//	public static void main(String[] args) {
+//
+//	}
 
 
 
