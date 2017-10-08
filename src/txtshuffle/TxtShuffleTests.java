@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import txtshuffle.TxtShuffle.NumberTooGreatException;
+
 public final class TxtShuffleTests {
 
 	@BeforeClass
@@ -75,9 +77,9 @@ public final class TxtShuffleTests {
 
 
 	@Test
-	public final void encodeIntoDataAndRetrieve() throws IOException
+	public final void encodeIntoDataAndRetrieve() throws IOException, NumberTooGreatException
 	{
-		final int secretNum = 7;
+		final int secretNum = 19409; // 40319; // 40320 is fact(8) and is the lowest too-high integer
 
 		String[] encoded = TxtShuffle.encodeNumberIntoData("example1.txt", secretNum);
 

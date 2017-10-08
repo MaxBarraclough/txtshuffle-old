@@ -18,12 +18,49 @@ public final class TxtShuffle {
 	// TODO terminology: is this 'swizzling'?
 
 
-
-	public static String[] encodeNumberIntoData(final String filePath, final int secretNum) throws IOException
+	public final static class NumberTooGreatException extends Exception
 	{
-		// // TODO figure out maximum number we can encode + enforce
+		private static final long serialVersionUID = -2586736610035380677L;
+	}
 
+
+	private static int naiveFact(final int val)
+	{
+		assert(val >= 0);
+
+		int acc = 1;
+		// for (int i = val; i >= 0; --i) // NO! Won't map 0 to 1 as desired. We can skip the last two iterations.
+		for (int i = val; i > 1; --i) // mult the large nums first; overflow as early as possible
+		{
+			acc = Math.multiplyExact(i, acc); // throws on overflow
+		}
+
+		return acc;
+	}
+
+
+	public static String[] encodeNumberIntoData(final String filePath, final int secretNum)
+			throws IOException, NumberTooGreatException
+	{
 		final String[] strs = TxtShuffle.readFileIntoStringArr(filePath);
+
+		boolean numberIsOk = false;
+
+		try
+		{
+			final int maxValPlusOne = naiveFact(strs.length);
+
+			numberIsOk = (secretNum < maxValPlusOne);
+		}
+		catch (ArithmeticException ae)
+		{
+			numberIsOk = false;
+		}
+
+		if (!numberIsOk)
+		{
+			throw new NumberTooGreatException();
+		}
 
 		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
 		final int[] useful = VectorConversions.compactToUseful(compact);
