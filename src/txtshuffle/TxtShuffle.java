@@ -5,29 +5,54 @@ import java.util.Arrays;
 public final class TxtShuffle {
 
 
-	private static class AnnotatedDatum
+	/**
+	 * Sort an array of ints, treating those ints
+	 * as indices into a String[]
+	 * @author mb
+	 *
+	 */
+	private static final class CustomIntegerComparator implements java.util.Comparator<Integer>
 	{
-		public final int val;
-		public final int originalIndex;
 
-		public AnnotatedDatum(int v, int o)
+		final String[] strings;
+
+		public CustomIntegerComparator(String[] strs)
 		{
-			this.val = v;
-			this.originalIndex = o;
+			this.strings = strs;
+		}
+
+		@Override
+		public int compare(Integer i1, Integer i2)
+		{
+			String s1 = this.strings[i1];
+			String s2 = this.strings[i2];
+			int ret = s1.compareTo(s2);
+			return ret;
 		}
 
 	}
 
-	private static final int[] originalArr = {5,2,4,3,1};
+	// All this order-map business is analogous to matrix product, but that wouldn't buy us anything in implementation
 
-	private static final AnnotatedDatum[] annotatedArr =
-		{
-			new AnnotatedDatum(5,0),
-			new AnnotatedDatum(2,1),
-			new AnnotatedDatum(4,2),
-			new AnnotatedDatum(3,3),
-			new AnnotatedDatum(1,4)
-		};
+
+	/**
+	 * Returns a new array which is the desired reordering of the input array
+	 * @param input
+	 * @return
+	 */
+	private static String[] applyOrderMapToStringArr(String[] input)
+	{
+
+
+
+		return null; // // //
+	}
+
+
+
+	// EXTRINSIC WINS, THERE'S NO POINT HAULING PAIR OBJECTS AROUND
+
+
 
 	// Two ways to track the 'original index' question:
 	// 'intrinsic' with a 'wrapper type' with another member for original index, or

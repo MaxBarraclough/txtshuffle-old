@@ -20,6 +20,60 @@ import java.util.ArrayList;
 
 public final class VectorConversions {
 
+	/**
+	 * Not to be instantiated
+	 */
+	private VectorConversions() {}
+
+
+
+	public static boolean isValidUsefulVector(int[] vec)
+	{
+		boolean ret = true;
+
+		int[] copy = new int[vec.length];
+
+		System.arraycopy(vec, 0, copy, 0, vec.length);
+
+		java.util.Arrays.sort(copy);
+
+
+		for (int i = 0; i != copy.length; ++i)
+		{
+			if (copy[i] != i)
+			{
+				ret = false;
+				break;
+			}
+		}
+
+		return ret;
+	}
+
+	public static boolean isValidCompactVector(int[] vec)
+	{
+		// // // CHECK INVARIANTS tick through and ensure monotonic 'narrowing' is as
+		// expected
+
+		boolean ret = true;
+
+		final int outSz = vec.length;
+		for (int i = 0; i != outSz; ++i) {
+			final int got = vec[i];
+			final int maxAllowed = outSz - (i + 1);
+
+			// assert(got <= maxAllowed);
+			if (got > maxAllowed) {
+				ret = false;
+				break;
+			}
+		}
+
+		return ret;
+	}
+
+
+
 	/***
 	 *
 	 * @param extent
@@ -83,7 +137,9 @@ public final class VectorConversions {
 	 */
 	public static int compactVectorToInt(final int[] compactVector)
 	{
-		assert(0 == compactVector[compactVector.length - 1]);
+		assert(0 == compactVector[compactVector.length - 1]); // TODO should conditionally throw?
+
+		assert(isValidCompactVector(compactVector));
 
 		final int stopBefore = compactVector.length - 1;
 		// omit last element in the compact vector, by stopping *before* the last element's index
@@ -112,6 +168,8 @@ public final class VectorConversions {
 	 */
 	public static int[] usefulToCompact(final int[] usefulVector)
 	{
+		assert(isValidUsefulVector(usefulVector)); // TODO should conditionally throw?
+
 		final int sz = usefulVector.length;
 
 		// TODO this is a disastrous choice of data structure!
@@ -138,20 +196,14 @@ public final class VectorConversions {
 
 		assert(workingVector.isEmpty());
 
-		// // // CHECK INVARIANTS tick through and ensure monotonic 'narrowing' is as expected
 
+		// TODO REMOVE THIS DUPLICATE
 		{
 			final int outSz = outputVector.size();
 			for (int i = 0; i != outSz; ++i)
 			{
 				final int got = outputVector.get(i);
 				final int maxAllowed = outSz - (i + 1);
-
-				if (! ((got <= maxAllowed)))
-				{
-					int jjjj = 7;
-				 // oops!
-				}
 
 				assert(got <= maxAllowed);
 			}
@@ -167,6 +219,8 @@ public final class VectorConversions {
 			outArr[i] = outputVector.get(i);
 		}
 
+		assert(isValidCompactVector(outArr));
+
 		return outArr;
 	}
 
@@ -174,7 +228,7 @@ public final class VectorConversions {
 
 	public static int[] compactToUseful(int[] compactVector)
 	{
-		// // // TODO assert compactness
+		assert(isValidCompactVector(compactVector));
 
 		// First set up the vector augmentation, as with usefulToCompact
 		// TODO comment this properly
@@ -210,6 +264,8 @@ public final class VectorConversions {
 		{
 			outArr[i] = outputVector.get(i);
 		}
+
+		assert(isValidUsefulVector(outArr));
 
 		return outArr;
 	}
