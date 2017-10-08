@@ -40,12 +40,21 @@ public final class TxtShuffle {
 	 * @param input
 	 * @return
 	 */
-	private static String[] applyOrderMapToStringArr(String[] input)
+	private static String[] applyOrderMapToStringArr(String[] input, int[] orderMap)
 	{
+		assert(input.length == orderMap.length); // explodes if either is null
+		assert(VectorConversions.isValidUsefulVector(orderMap));
+		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
+		final String[] output = new String[input.length];
 
+		for (int i = 0; i != input.length; ++i)
+		{
+			final int desiredIndex = orderMap[i];
+			output[desiredIndex] = input[i];
+		}
 
-		return null; // // //
+		return output;
 	}
 
 
