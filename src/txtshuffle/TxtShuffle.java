@@ -14,15 +14,15 @@ public final class TxtShuffle {
 	private static final class CustomIntegerComparator implements java.util.Comparator<Integer>
 	{
 
-		final String[] strings;
+		private final String[] strings;
 
-		public CustomIntegerComparator(String[] strs)
+		public CustomIntegerComparator(final String[] strs)
 		{
 			this.strings = strs;
 		}
 
 		@Override
-		public int compare(Integer i1, Integer i2)
+		public int compare(final Integer i1, final Integer i2)
 		{
 			String s1 = this.strings[i1];
 			String s2 = this.strings[i2];
@@ -35,12 +35,58 @@ public final class TxtShuffle {
 	// All this order-map business is analogous to matrix product, but that wouldn't buy us anything in implementation
 
 
+	public static int[] findSortingOrderMap(final String[] inputData)
+	{
+		final Integer[] orderMapBoxed = new Integer[inputData.length];
+
+		for (int i = 0; i != orderMapBoxed.length; ++i)
+		{
+			orderMapBoxed[i] = i;
+		}
+
+		final CustomIntegerComparator c = new CustomIntegerComparator(inputData);
+
+		java.util.Arrays.sort(orderMapBoxed,c);
+
+
+		// Laboriously unbox
+
+		final int[] ret = new int[orderMapBoxed.length];
+
+		for (int i = 0; i != ret.length; ++i)
+		{
+			ret[i] = orderMapBoxed[i];
+		}
+
+		return ret;
+	}
+
+
+
+	// TODO move to some other class?
+	public static int[] reverseOrderMap(final int[] orderMap)
+	{
+		assert( VectorConversions.isValidUsefulVector(orderMap) );
+
+		final int[] reversed = new int[orderMap.length];
+
+		for (int i = 0; i != orderMap.length; ++i)
+		{
+			final int index = orderMap[i];
+			reversed[index] = i;
+		}
+
+		return reversed;
+	}
+
+
+
 	/**
 	 * Returns a new array which is the desired reordering of the input array
 	 * @param input
 	 * @return
 	 */
-	private static String[] applyOrderMapToStringArr(String[] input, int[] orderMap)
+	public static String[] applyOrderMapToStringArr(final String[] input, final int[] orderMap)
 	{
 		assert(input.length == orderMap.length); // explodes if either is null
 		assert(VectorConversions.isValidUsefulVector(orderMap));

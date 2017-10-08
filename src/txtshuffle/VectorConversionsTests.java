@@ -17,7 +17,7 @@ import org.junit.Test;
  * @author mb
  *
  */
-public class VectorConversionsTests {
+public final class VectorConversionsTests {
 
 	/**
 	 * @throws java.lang.Exception
