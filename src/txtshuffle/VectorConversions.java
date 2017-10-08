@@ -31,7 +31,7 @@ public final class VectorConversions {
 	{
 		boolean ret = true;
 
-		int[] copy = new int[vec.length];
+		final int[] copy = new int[vec.length];
 
 		System.arraycopy(vec, 0, copy, 0, vec.length);
 
@@ -58,6 +58,7 @@ public final class VectorConversions {
 		boolean ret = true;
 
 		final int outSz = vec.length;
+
 		for (int i = 0; i != outSz; ++i) {
 			final int got = vec[i];
 			final int maxAllowed = outSz - (i + 1);
