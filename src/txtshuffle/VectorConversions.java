@@ -12,6 +12,13 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 // TODO machinery to discover the order vector for an array of unique comparable values
 // TODO machinery to compose order vectors? invert them?
 
+
+// TODO think about scaling the algorithm. Mult. is O(n^2). Perhaps break up the problem
+// and deal with the order of sub-sequences, and also with their ordering, etc, in a 'tiered' way...
+// or something similar.
+// Or is the mult. not so bad, as the smaller of the two operands is bounded by n (the row count)?
+
+
 // TODO composition of order maps. Is this preferable to repeated transformations? Probably about the same...
 
 
