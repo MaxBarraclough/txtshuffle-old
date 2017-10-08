@@ -28,12 +28,23 @@ public final class VectorConversions {
 	private VectorConversions() {}
 
 
+	/**
+	 * Check that each element is in the (0..n) interval,
+	 * and is unique within the array.
+	 * @param vec
+	 * @return
+	 */
 	public static boolean isValidSwizzleVector(int[] vec)
 	{
 		boolean ret = true;
 
 		final int[] copy = new int[vec.length];
 
+		// Time complexity might be better if we used a hash-set,
+		// (check interval each time, and each time check that
+		// the value isn't already in the set before adding)
+		// but this will do fine, especially for small vectors.
+		// (Assuming O(n log(n)) sort.)
 		System.arraycopy(vec, 0, copy, 0, vec.length);
 
 		java.util.Arrays.sort(copy);
@@ -53,9 +64,6 @@ public final class VectorConversions {
 
 	public static boolean isValidCompactVector(int[] vec)
 	{
-		// // // CHECK INVARIANTS tick through and ensure monotonic 'narrowing' is as
-		// expected
-
 		boolean ret = true;
 
 		final int outSz = vec.length;
@@ -65,7 +73,7 @@ public final class VectorConversions {
 			final int maxAllowed = outSz - (i + 1);
 
 			// assert(got <= maxAllowed);
-			if (got > maxAllowed) {
+			if ((got > maxAllowed) || (got < 0)) {
 				ret = false;
 				break;
 			}
