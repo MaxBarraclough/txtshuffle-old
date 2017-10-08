@@ -74,9 +74,21 @@ public final class TxtShuffleTests {
 	}
 
 
+	@Test
+	public final void encodeIntoDataAndRetrieve() throws IOException
+	{
+		final int secretNum = 7;
+
+		String[] encoded = TxtShuffle.encodeNumberIntoData("example1.txt", secretNum);
+
+		final int retrievedNum = TxtShuffle.retrieveNumberFromData(encoded);
+
+		org.junit.Assert.assertEquals(secretNum, retrievedNum);
+	}
+
 
 	@Test
-	public final void bigTest() throws IOException
+	public final void encodeIntoDataAndRetrieve_FineGrain() throws IOException
 	{
 		final int secretNum = 7; // // TODO figure out maximum number we can encode + enforce
 
@@ -126,8 +138,6 @@ public final class TxtShuffleTests {
 //		final int[] reversedOrderMap = TxtShuffle.inverseOrderMap(orderMapForFilesOrder);
 //		final String[] strsUnsorted = strs.clone();
 //		TxtShuffle.applyOrderMapToStringArr(strsUnsorted, reversedOrderMap);
-
-
 	}
 
 }

@@ -10,6 +10,51 @@ import java.util.List;
 public final class TxtShuffle {
 
 
+	// TODO move code away from arrays and toward.... something else... some interface?
+
+	// TODO if we care more about fast decode than fast encode,
+	// we should do the inverseOrderMap on the encode side, not on the decode side
+
+	// TODO terminology: is this 'swizzling'?
+
+
+
+	public static String[] encodeNumberIntoData(final String filePath, final int secretNum) throws IOException
+	{
+		// // TODO figure out maximum number we can encode + enforce
+
+		final String[] strs = TxtShuffle.readFileIntoStringArr(filePath);
+
+		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
+		final int[] useful = VectorConversions.compactToUseful(compact);
+
+		// final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs);
+		// No! Not needed for the encode direction, only for decode.
+
+		java.util.Arrays.sort(strs); // Mutates existing array
+
+		final String[] strsEncodingNum = TxtShuffle.applyOrderMapToStringArr(strs, useful);
+
+		return strsEncodingNum;
+	}
+
+
+
+	public static int retrieveNumberFromData(String[] data)
+	{
+		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingOrderMap(data);
+
+		final int[] retrievedUseful = TxtShuffle.inverseOrderMap(retrievedSortingOrderMap);
+
+		final int[] retrievedCompact = VectorConversions.usefulToCompact(retrievedUseful);
+
+		final int retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
+
+		return retrievedNum;
+	}
+
+
+
 	/**
 	 * Sort an array of ints, treating those ints
 	 * as indices into a String[]
@@ -121,6 +166,8 @@ public final class TxtShuffle {
 
 
 	// TODO move to some other class?
+	// If we were using matrix-product to implement our vector swizzling,
+	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
 	public static int[] inverseOrderMap(final int[] orderMap)
 	{
 		assert( VectorConversions.isValidUsefulVector(orderMap) );
