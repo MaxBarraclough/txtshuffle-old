@@ -1,5 +1,6 @@
 package txtshuffle;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import txtshuffle.TxtShuffle.NumberTooGreatException;
@@ -88,45 +89,64 @@ public final class VectorConversions {
 	 *
 	 * @param extent
 	 * Vector size
-	 * @param theInt
+	 * @param secretNum
 	 * @return
 	 * @throws NumberTooGreatException
 	 */
-	public static int[] intToCompactVector(final int extent, final int theInt) throws NumberTooGreatException
+	public static BigInteger[] intToCompactVector(final int extent, final BigInteger secretNum)
+			throws NumberTooGreatException
 	{
-		TxtShuffle.throwNtgeIfTooGreat(extent, theInt);
+		// should probably take long,BigInteger
 
-		int acc = theInt;
-		int card = 1;
+		// // TxtShuffle.throwNtgeIfTooGreat(extent, theInt); // // TODO RETHINK... N/A NOW RIGHT?
+
+		final BigInteger extent_BI = BigInteger.valueOf(extent);
+
+		BigInteger acc = secretNum;
+
+		// int card = 1;
+		BigInteger card = BigInteger.ONE;
+		// int would probably be fine but we'd end up converting to BigInteger anyway
+
+
+
+		// TODO this ArrayList can be eliminated. We can just work directly with arrays.
 
 		// build up this AL 'backwards' then reverse as we copy across to an array
-		final ArrayList<Integer> al = new ArrayList<Integer>(extent);
+		final ArrayList<BigInteger> al = new ArrayList<BigInteger>(extent);
 
 		for (int i = 0; i != extent; ++i)
 		{
-			assert(card <= extent);
-			assert(card >= 0);
-			assert(acc >= 0);
+			// assert(card <= extent);
+			assert(card.compareTo(extent_BI) <= 0);
 
-			final int temp = acc % card;
+			// assert(card >= 0);
+			assert(card.compareTo(BigInteger.ZERO) >= 0);
+
+			assert( acc.compareTo(BigInteger.ZERO) >= 0 ); // assert(acc >= 0);
+
+			// final int temp = acc % card;
+			final BigInteger temp = acc.mod( card );
 			// first time round we do x%1 (yielding zero, of course), which is fine
 
 			al.add(temp);
 
-			acc -= temp;
+			// acc -= temp;
+			acc = acc.subtract(temp);
 
-			assert(acc >= 0);
+			// assert(acc >= 0);
+			assert(acc.compareTo(BigInteger.ZERO) >= 0);
 
-			acc /= card; // first time round, divides by 1, which is fine
+			// acc /= card; // first time round, divides by 1, which is fine
+			acc = acc.divide(card);
 
-
-			++card;
+			// ++card;
+			card = card.add(BigInteger.ONE);
 		}
-
 
 		// reverse the order as we return
 
-		final int[] ret = new int[al.size()];
+		final BigInteger[] ret = new BigInteger[al.size()];
 		final int lastIndex = ret.length - 1;
 
 		for (int i = 0; i != ret.length; ++i)

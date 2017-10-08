@@ -3,6 +3,7 @@ package txtshuffle;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -96,7 +97,21 @@ public final class TxtShuffleTests {
 
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
-		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
+		// TODO ugly conversion business again ///////////////////////////////
+		final BigInteger[] compact_BIs =
+				VectorConversions.intToCompactVector(
+				  strs.length,
+				  BigInteger.valueOf(secretNum)
+				);
+
+		final int[] compact = new int[compact_BIs.length];
+		for(int i = 0; i != compact.length; ++i)
+		{
+			compact[i] = compact_BIs[i].intValue();
+		}
+
+		//////////////////////////////////////////////////////////////////////
+
 		final int[] useful = VectorConversions.compactToSwizzle(compact);
 
 		// final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs); // NO! not needed for the encode direction, only for decode!

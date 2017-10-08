@@ -5,6 +5,7 @@ package txtshuffle;
 
 import static org.junit.Assert.*;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 import org.junit.After;
@@ -116,7 +117,25 @@ public final class VectorConversionsTests {
 
 		final int theInt = 1395835;
 
-		final int[] compactFromInt = VectorConversions.intToCompactVector(10, theInt);
+
+
+		// TODO nasty conversion business /////////////////////////
+
+		final BigInteger[] compactFromInt_BIs
+		  = VectorConversions.intToCompactVector(
+				  10,
+				  BigInteger.valueOf(theInt)
+		    );
+
+
+		final int[] compactFromInt = new int[compactFromInt_BIs.length];
+		for(int i = 0; i != compactFromInt.length; ++i)
+		{
+			compactFromInt[i] = compactFromInt_BIs[i].intValue();
+		}
+
+		///////////////////////////////////////////////////////////
+
 
 		final int[] swizzleVecFromCompact = VectorConversions.compactToSwizzle(compactFromInt);
 

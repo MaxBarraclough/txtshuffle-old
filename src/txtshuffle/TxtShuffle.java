@@ -1,6 +1,7 @@
 package txtshuffle;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -68,7 +69,24 @@ public final class TxtShuffle {
 
 		throwNtgeIfTooGreat(strs.length, secretNum);
 
-		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
+
+		// TODO this won't be necessary once everything is BigInteger
+		//// Nasty business converting from BigInteger[] to int[] ////
+
+		final BigInteger secretNum_BI = BigInteger.valueOf(secretNum);
+
+		final BigInteger[] compact_BIs
+		  = VectorConversions.intToCompactVector(strs.length, secretNum_BI);
+
+		final int[] compact = new int[compact_BIs.length];
+		for(int i = 0; i != compact.length; ++i)
+		{
+			compact[i] = compact_BIs[i].intValue();
+		}
+
+		//////////////////////////////////////////////////////////////
+
+
 		final int[] useful = VectorConversions.compactToSwizzle(compact);
 
 		// final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs);
