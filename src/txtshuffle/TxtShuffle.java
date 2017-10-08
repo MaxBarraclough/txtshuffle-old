@@ -66,6 +66,10 @@ public final class TxtShuffle {
 
 	// TODO param name consistency
 
+
+
+	// TODO PRIORITY move this over to BigInteger
+
 	public static String[] encodeSmallNumberIntoData(final String filePath, final int secretNum)
 			throws IOException, NumberTooGreatException
 	{
@@ -105,7 +109,7 @@ public final class TxtShuffle {
 
 
 
-	public static int retrieveNumberFromData(String[] data)
+	public static BigInteger retrieveNumberFromData(String[] data)
 	{
 		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingOrderMap(data);
 
@@ -113,7 +117,7 @@ public final class TxtShuffle {
 
 		final int[] retrievedCompact = VectorConversions.swizzleToCompact(retrievedUseful);
 
-		final int retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
+		final BigInteger retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
 
 		return retrievedNum;
 	}

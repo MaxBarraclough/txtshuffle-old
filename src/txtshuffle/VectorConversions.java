@@ -175,7 +175,7 @@ public final class VectorConversions {
 	 *
 	 * @return
 	 */
-	public static int compactVectorToInt(final int[] compactVector)
+	public static BigInteger compactVectorToInt(final int[] compactVector)
 	{
 		assert(0 == compactVector[compactVector.length - 1]); // TODO should conditionally throw?
 
@@ -184,16 +184,25 @@ public final class VectorConversions {
 		final int stopBefore = compactVector.length - 1;
 		// omit last element in the compact vector, by stopping *before* the last element's index
 
-		int acc = 0;
+		// int acc = 0;
+		BigInteger acc = BigInteger.ZERO;
 
-		int card = compactVector.length;
+		BigInteger card = BigInteger.valueOf(compactVector.length);
+		// int card = compactVector.length;
 		// cardinality of the set of 'options' is initially the length of the vector
 
 		for (int i = 0; i != stopBefore; ++i)
 		{
-			acc *= card; // First iteration, just multiplies zero. That's fine.
-			acc += compactVector[i];
-			--card;
+			// acc *= card; // First iteration, just multiplies zero. That's fine.
+
+			acc = acc.multiply(card);
+
+			// acc += compactVector[i];
+			BigInteger toAdd = BigInteger.valueOf(compactVector[i]);
+			acc = acc.add( toAdd );
+
+			// --card;
+			card = card.subtract(BigInteger.ONE);
 		}
 		return acc;
 	}

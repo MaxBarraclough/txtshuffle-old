@@ -112,13 +112,13 @@ public final class VectorConversionsTests {
 	 * @throws NumberTooGreatException
 	 */
 	@Test
-	public final void testIntToCompactVectorAndBack() throws NumberTooGreatException {
+	public final void testIntToCompactVectorAndBack_KnownVec() throws NumberTooGreatException {
 
 		// hard-coded value, vector part
 		final int[] expectedOutputArr = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // length 10
 
 		// hard-coded value, int part
-		final int theInt = 1395835;
+		final BigInteger secretNum = BigInteger.valueOf(1395835);
 
 
 
@@ -127,7 +127,7 @@ public final class VectorConversionsTests {
 		final BigInteger[] compactFromInt_BIs
 		  = VectorConversions.intToCompactVector(
 				  10,
-				  BigInteger.valueOf(theInt)
+				  secretNum
 		    );
 
 
@@ -145,10 +145,52 @@ public final class VectorConversionsTests {
 		org.junit.Assert.assertArrayEquals(expectedOutputArr, swizzleVecFromCompact);
 
 		final int[] backToCompactFromSwizzle = VectorConversions.swizzleToCompact(swizzleVecFromCompact);
-		final int backToInt = VectorConversions.compactVectorToInt(backToCompactFromSwizzle);
 
-		org.junit.Assert.assertEquals(theInt, backToInt);
+		final BigInteger backToInt = VectorConversions.compactVectorToInt(backToCompactFromSwizzle);
+
+		org.junit.Assert.assertEquals(secretNum, backToInt);
 	}
+
+
+	// TODO rename from 'int'
+
+	@Test
+	public final void testIntToCompactVectorAndBack() throws NumberTooGreatException {
+
+		// hard-coded value, int part
+		final BigInteger theBigInteger = BigInteger.valueOf(1395835);
+
+
+		// TODO nasty conversion business /////////////////////////
+
+		final BigInteger[] compactFromInt_BIs
+		  = VectorConversions.intToCompactVector(
+				  10,
+				  theBigInteger
+		    );
+
+
+		final int[] compactFromInt = new int[compactFromInt_BIs.length];
+		for(int i = 0; i != compactFromInt.length; ++i)
+		{
+			compactFromInt[i] = compactFromInt_BIs[i].intValue();
+		}
+
+		///////////////////////////////////////////////////////////
+
+
+		final int[] swizzleVecFromCompact = VectorConversions.compactToSwizzle(compactFromInt);
+
+		final int[] backToCompactFromSwizzle
+		  = VectorConversions.swizzleToCompact(swizzleVecFromCompact);
+
+		final BigInteger backToInt
+		  = VectorConversions.compactVectorToInt(backToCompactFromSwizzle);
+
+		org.junit.Assert.assertEquals(theBigInteger, backToInt);
+	}
+
+
 
 
 

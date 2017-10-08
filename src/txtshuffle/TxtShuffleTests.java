@@ -80,20 +80,22 @@ public final class TxtShuffleTests {
 	@Test
 	public final void encodeIntoDataAndRetrieve() throws IOException, NumberTooGreatException
 	{
-		final int secretNum = 19409; // 40319; // 40320 is fact(8) and is the lowest too-high integer
+		final int secretNum = 19409;
+		final BigInteger secretNum_BI = BigInteger.valueOf(secretNum);
+		// 40319; // 40320 is fact(8) and is the lowest too-high integer
 
 		String[] encoded = TxtShuffle.encodeSmallNumberIntoData("example1.txt", secretNum);
 
-		final int retrievedNum = TxtShuffle.retrieveNumberFromData(encoded);
+		final BigInteger retrievedNum = TxtShuffle.retrieveNumberFromData(encoded);
 
-		org.junit.Assert.assertEquals(secretNum, retrievedNum);
+		org.junit.Assert.assertEquals(secretNum_BI, retrievedNum);
 	}
 
 
 	@Test
 	public final void encodeIntoDataAndRetrieve_FineGrain() throws IOException, NumberTooGreatException
 	{
-		final int secretNum = 7; // // TODO figure out maximum number we can encode + enforce
+		final BigInteger secretNum = BigInteger.valueOf(7);
 
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
@@ -101,7 +103,7 @@ public final class TxtShuffleTests {
 		final BigInteger[] compact_BIs =
 				VectorConversions.intToCompactVector(
 				  strs.length,
-				  BigInteger.valueOf(secretNum)
+				  secretNum
 				);
 
 		final int[] compact = new int[compact_BIs.length];
@@ -143,7 +145,7 @@ public final class TxtShuffleTests {
 
 		org.junit.Assert.assertArrayEquals(compact, retrievedCompact);
 
-		final int retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
+		final BigInteger retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
 
 		org.junit.Assert.assertEquals(secretNum, retrievedNum);
 
