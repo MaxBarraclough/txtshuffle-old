@@ -82,7 +82,7 @@ public final class TxtShuffleTests {
 	{
 		final int secretNum = 19409; // 40319; // 40320 is fact(8) and is the lowest too-high integer
 
-		String[] encoded = TxtShuffle.encodeNumberIntoData("example1.txt", secretNum);
+		String[] encoded = TxtShuffle.encodeSmallNumberIntoData("example1.txt", secretNum);
 
 		final int retrievedNum = TxtShuffle.retrieveNumberFromData(encoded);
 

@@ -113,8 +113,11 @@ public final class VectorConversionsTests {
 	 */
 	@Test
 	public final void testIntToCompactVectorAndBack() throws NumberTooGreatException {
+
+		// hard-coded value, vector part
 		final int[] expectedOutputArr = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // length 10
 
+		// hard-coded value, int part
 		final int theInt = 1395835;
 
 

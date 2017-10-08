@@ -40,7 +40,8 @@ public final class TxtShuffle {
 	}
 
 
-	public static void throwNtgeIfTooGreat(final int vecLength, final int numToEncode) throws NumberTooGreatException
+	public static void throwNtgeIfTooGreat(final int vecLength, final BigInteger numToEncode)
+			throws NumberTooGreatException
 	{
 		boolean numberIsOk = false;
 
@@ -49,7 +50,7 @@ public final class TxtShuffle {
 			final BigInteger maxValPlusOne = naiveFact(vecLength);
 
 			// numberIsOk = (numToEncode < maxValPlusOne);
-			numberIsOk = (BigInteger.valueOf(numToEncode).compareTo(maxValPlusOne) == -1);
+			numberIsOk = (numToEncode.compareTo(maxValPlusOne) == -1);
 		}
 //		catch (ArithmeticException ae)
 //		{
@@ -65,12 +66,12 @@ public final class TxtShuffle {
 
 	// TODO param name consistency
 
-	public static String[] encodeNumberIntoData(final String filePath, final int secretNum)
+	public static String[] encodeSmallNumberIntoData(final String filePath, final int secretNum)
 			throws IOException, NumberTooGreatException
 	{
 		final String[] strs = TxtShuffle.readFileIntoStringArr(filePath);
 
-		throwNtgeIfTooGreat(strs.length, secretNum);
+		throwNtgeIfTooGreat(strs.length, BigInteger.valueOf(secretNum));
 
 
 		// TODO this won't be necessary once everything is BigInteger

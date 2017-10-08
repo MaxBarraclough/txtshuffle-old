@@ -105,7 +105,7 @@ public final class VectorConversions {
 	{
 		// should probably take long,BigInteger
 
-		// // TxtShuffle.throwNtgeIfTooGreat(extent, theInt); // // TODO RETHINK... N/A NOW RIGHT?
+		TxtShuffle.throwNtgeIfTooGreat(extent, secretNum); // Ensure we have enough bits to play with
 
 		final BigInteger extent_BI = BigInteger.valueOf(extent);
 
