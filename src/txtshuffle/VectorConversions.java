@@ -2,6 +2,8 @@ package txtshuffle;
 
 import java.util.ArrayList;
 
+import txtshuffle.TxtShuffle.NumberTooGreatException;
+
 
 // TODO consistent terminology: 'order map' or 'useful vector'?
 
@@ -83,9 +85,12 @@ public final class VectorConversions {
 	 * Vector size
 	 * @param theInt
 	 * @return
+	 * @throws NumberTooGreatException
 	 */
-	public static int[] intToCompactVector(final int extent, final int theInt)
+	public static int[] intToCompactVector(final int extent, final int theInt) throws NumberTooGreatException
 	{
+		TxtShuffle.throwNtgeIfTooGreat(theInt, extent);
+
 		int acc = theInt;
 		int card = 1;
 
