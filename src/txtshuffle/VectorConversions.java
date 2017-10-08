@@ -3,7 +3,9 @@ package txtshuffle;
 import java.util.ArrayList;
 
 
+// TODO consistent terminology: 'order map' or 'useful vector'?
 
+// TODO no-allocate versions of the methods?
 
 // TODO machinery for applying an 'order vector' (a.k.a. a 'useful' vector)
 // TODO machinery to discover the order vector for an array of unique comparable values
