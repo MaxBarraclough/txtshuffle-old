@@ -75,14 +75,35 @@ public final class VectorConversionsTests {
 		org.junit.Assert.assertFalse(VectorConversions.isValidSwizzleVector(invalid2));
 		org.junit.Assert.assertFalse(VectorConversions.isValidSwizzleVector(invalid3));
 	}
-//
-//	/**
-//	 * Test method for {@link txtshuffle.VectorConversions#isValidCompactVector(int[])}.
-//	 */
-//	@Test
-//	public final void testIsValidCompactVector() {
-//		fail("Not yet implemented");
-//	}
+
+
+	/**
+	 * Test method for {@link txtshuffle.VectorConversions#isValidCompactVector(int[])}.
+	 */
+	@Test
+	public final void testIsValidCompactVector() {
+
+		final int[] valid1 = new int[] {0,0,0,0};
+		final int[] valid2 = new int[] {};
+		final int[] valid3 = new int[] {0};
+		final int[] valid4 = new int[] {0,1,0};
+		final int[] valid5 = new int[] {2,1,0};
+
+		final int[] invalid1 = new int[] {1};
+		final int[] invalid2 = new int[] {0,1,1};
+		final int[] invalid3 = new int[] {0,1,-1};
+
+
+		org.junit.Assert.assertTrue(VectorConversions.isValidCompactVector(valid1));
+		org.junit.Assert.assertTrue(VectorConversions.isValidCompactVector(valid2));
+		org.junit.Assert.assertTrue(VectorConversions.isValidCompactVector(valid3));
+		org.junit.Assert.assertTrue(VectorConversions.isValidCompactVector(valid4));
+		org.junit.Assert.assertTrue(VectorConversions.isValidCompactVector(valid5));
+
+		org.junit.Assert.assertFalse(VectorConversions.isValidCompactVector(invalid1));
+		org.junit.Assert.assertFalse(VectorConversions.isValidCompactVector(invalid2));
+		org.junit.Assert.assertFalse(VectorConversions.isValidCompactVector(invalid3));
+	}
 
 
 	/**
