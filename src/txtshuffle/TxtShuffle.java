@@ -39,18 +39,15 @@ public final class TxtShuffle {
 	}
 
 
-	public static String[] encodeNumberIntoData(final String filePath, final int secretNum)
-			throws IOException, NumberTooGreatException
+	public static void throwNtgeIfTooGreat(final int numToEncode, final int vecLength) throws NumberTooGreatException
 	{
-		final String[] strs = TxtShuffle.readFileIntoStringArr(filePath);
-
 		boolean numberIsOk = false;
 
 		try
 		{
-			final int maxValPlusOne = naiveFact(strs.length);
+			final int maxValPlusOne = naiveFact(vecLength);
 
-			numberIsOk = (secretNum < maxValPlusOne);
+			numberIsOk = (numToEncode < maxValPlusOne);
 		}
 		catch (ArithmeticException ae)
 		{
@@ -61,6 +58,17 @@ public final class TxtShuffle {
 		{
 			throw new NumberTooGreatException();
 		}
+	}
+
+
+	// TODO param name consistency
+
+	public static String[] encodeNumberIntoData(final String filePath, final int secretNum)
+			throws IOException, NumberTooGreatException
+	{
+		final String[] strs = TxtShuffle.readFileIntoStringArr(filePath);
+
+		throwNtgeIfTooGreat(secretNum, strs.length);
 
 		final int[] compact = VectorConversions.intToCompactVector(strs.length, secretNum);
 		final int[] useful = VectorConversions.compactToUseful(compact);
