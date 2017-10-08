@@ -23,15 +23,17 @@ public final class TxtShuffle {
 	}
 
 
-	private static int naiveFact(final int val)
+	private static BigInteger naiveFact(final int val)
 	{
 		assert(val >= 0);
 
-		int acc = 1;
+		// int acc = 1;
+		BigInteger acc = BigInteger.ONE;
 		// for (int i = val; i >= 0; --i) // NO! Won't map 0 to 1 as desired. We can skip the last two iterations.
 		for (int i = val; i > 1; --i) // mult the large nums first; overflow as early as possible
 		{
-			acc = Math.multiplyExact(i, acc); // throws on overflow
+			// acc = Math.multiplyExact(i, acc); // throws on overflow
+			acc = acc.multiply(BigInteger.valueOf(i));
 		}
 
 		return acc;
@@ -42,16 +44,17 @@ public final class TxtShuffle {
 	{
 		boolean numberIsOk = false;
 
-		try
+//		try
 		{
-			final int maxValPlusOne = naiveFact(vecLength);
+			final BigInteger maxValPlusOne = naiveFact(vecLength);
 
-			numberIsOk = (numToEncode < maxValPlusOne);
+			// numberIsOk = (numToEncode < maxValPlusOne);
+			numberIsOk = (BigInteger.valueOf(numToEncode).compareTo(maxValPlusOne) == -1);
 		}
-		catch (ArithmeticException ae)
-		{
-			numberIsOk = false;
-		}
+//		catch (ArithmeticException ae)
+//		{
+//			numberIsOk = false;
+//		}
 
 		if (!numberIsOk)
 		{
