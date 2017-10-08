@@ -1,6 +1,11 @@
 package txtshuffle;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 public final class TxtShuffle {
 
@@ -35,8 +40,57 @@ public final class TxtShuffle {
 	// All this order-map business is analogous to matrix product, but that wouldn't buy us anything in implementation
 
 
+
+
+	public static String[] readFileIntoStringArr(String path) throws IOException
+	{
+		// inspired by https://stackoverflow.com/a/326440
+		final List<String> lines = Files.readAllLines(Paths.get(path), Charset.defaultCharset());
+
+//		StringBuilder sb = new StringBuilder();
+
+//		final int linesCount = lines.size();
+//
+//		for (int i = 0; i != linesCount; ++i)
+//		{
+//			sb.append(lines.get(i));
+//		}
+//
+//		String ret = sb.toString();
+
+		// surprisingly hard to get a String[] out of a List<String>
+//		final Object[] retObjs = lines.toArray(); // yes, yet another avoidable copy
+//		final String[] ret = (String[])retObjs;
+
+		final String[] ret = new String[lines.size()];
+
+		for (int i = 0; i != ret.length; ++i)
+		{
+			ret[i] = lines.get(i);
+		}
+
+		return ret;
+	}
+
+
+
+	// TODO the final inversion stage in findSortingOrderMap can be omitted if we
+	// just apply the inverse order map vector, instead.
+	// This shouldn't be any harder.
+
+
+/**
+ * Find the order map which transforms the original data into its sorted order
+ * @param inputData
+ * @return
+ */
 	public static int[] findSortingOrderMap(final String[] inputData)
 	{
+		// We sort, but we sort an int array, treating them as indices into our data.
+		// The result is an int array which specifies the order of the sorted data.
+		// This *isn't* the same thing as the order-map which transforms the data into its sorted order!
+		// It's actually the *inverse*. So we order-map-invert the int array, and return that.
+
 		final Integer[] orderMapBoxed = new Integer[inputData.length];
 
 		for (int i = 0; i != orderMapBoxed.length; ++i)
@@ -51,12 +105,15 @@ public final class TxtShuffle {
 
 		// Laboriously unbox
 
-		final int[] ret = new int[orderMapBoxed.length];
+		final int[] unboxedArr = new int[orderMapBoxed.length];
 
-		for (int i = 0; i != ret.length; ++i)
+		for (int i = 0; i != unboxedArr.length; ++i)
 		{
-			ret[i] = orderMapBoxed[i];
+			unboxedArr[i] = orderMapBoxed[i];
 		}
+
+		// Inverse
+		final int[] ret = TxtShuffle.reverseOrderMap(unboxedArr);
 
 		return ret;
 	}

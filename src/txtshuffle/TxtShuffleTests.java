@@ -2,6 +2,8 @@ package txtshuffle;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,6 +45,32 @@ public final class TxtShuffleTests {
 		org.junit.Assert.assertArrayEquals(usefulArr, backAgain);
 
 		// TxtShuffle.applyOrderMapToStringArr(input, orderMap)
+	}
+
+	@Test
+	public final void testFindSortingOrderMap() throws IOException
+	{
+		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
+
+		final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs);
+
+		final String[] strsSorted = strs.clone();
+		java.util.Arrays.sort(strsSorted);
+
+		final boolean shouldBeFalse = java.util.Arrays.equals(strs, strsSorted);
+		org.junit.Assert.assertFalse(shouldBeFalse);
+
+
+		final String[] strsAfterSortingOrder =
+		  TxtShuffle.applyOrderMapToStringArr(strs, orderMapForFilesOrder);
+
+		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
+
+		final int[] reversedOrderMap = TxtShuffle.reverseOrderMap(orderMapForFilesOrder);
+		final String[] strsUnsorted = strs.clone();
+		TxtShuffle.applyOrderMapToStringArr(strsUnsorted, reversedOrderMap);
+
+		org.junit.Assert.assertArrayEquals(strs, strsUnsorted);
 	}
 
 }
