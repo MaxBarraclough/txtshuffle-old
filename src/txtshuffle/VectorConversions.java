@@ -138,7 +138,7 @@ public final class VectorConversions {
 		// int would probably be fine but we'd end up converting to BigInteger anyway
 
 		// build up this AL 'backwards' then reverse as we copy across to an array
-		final ArrayList<BigInteger> al = new ArrayList<BigInteger>(extent);
+		final ArrayList<Integer> al = new ArrayList<Integer>(extent);
 
 		for (int i = 0; i != extent; ++i)
 		{
@@ -151,7 +151,7 @@ public final class VectorConversions {
 			final BigInteger temp = acc.mod( card ); // final int temp = acc % card;
 			// first time round we do x%1 (yielding zero, of course), which is fine
 
-			al.add(temp);
+			al.add(temp.intValue()); // TODO proper check on this conversion
 
 			acc = acc.subtract(temp); // acc -= temp;
 
@@ -169,7 +169,7 @@ public final class VectorConversions {
 		for (int i = 0; i != ret.length; ++i)
 		{
 			int oppositeEnd = lastIndex - i;
-			ret[i] = al.get(oppositeEnd).intValue(); // TODO proper checks here
+			ret[i] = al.get(oppositeEnd);
 		}
 
 		// assert(java.util.Arrays.equals(ret, intToCompactVector_Fast(extent,secretNum)));
