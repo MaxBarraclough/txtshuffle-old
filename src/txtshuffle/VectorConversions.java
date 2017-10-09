@@ -278,8 +278,57 @@ public final class VectorConversions {
 
 		assert(isValidCompactVector(outArr));
 
+		assert(java.util.Arrays.equals(
+				outArr,
+				swizzleToCompact_Fast(swizzleVec)
+		       ));
+
+
 		return outArr;
 	}
+
+
+	public static int[] swizzleToCompact_Fast(final int[] swizzleVec)
+	{
+		assert(isValidSwizzleVector(swizzleVec)); // TODO should conditionally throw?
+
+		final int sz = swizzleVec.length;
+
+		// TODO this is a disastrous choice of data structure!
+		// An 'AVL tree list' would make more sense.
+		final ArrayList<Integer> workingVector = new ArrayList<Integer>(sz);
+
+		for (int i = 0; i != sz; ++i)
+		{
+			workingVector.add(i);
+		}
+
+		final int[] outArr = new int[sz];
+		int outArr_i = 0;
+
+		for (int i = 0; i != sz; ++i)
+		{
+			final int searchingFor = swizzleVec[i];
+			final int indexIntoWorkingVec = workingVector.indexOf(searchingFor);
+
+			assert(indexIntoWorkingVec >= 0);
+
+			// outputVector.add(indexIntoWorkingVec);
+			outArr[outArr_i] = indexIntoWorkingVec;
+			++outArr_i;
+
+			workingVector.remove(indexIntoWorkingVec);
+		}
+
+		assert( workingVector.isEmpty() );
+		assert( isValidCompactVector(outArr) );
+		assert(isValidCompactVector(outArr));
+
+		return outArr;
+	}
+
+
+
 
 
 
