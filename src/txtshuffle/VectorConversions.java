@@ -2,6 +2,7 @@ package txtshuffle;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.List;
 
 import txtshuffle.TxtShuffle.NumberTooGreatException;
 
@@ -61,6 +62,30 @@ public final class VectorConversions {
 		{
 			if (copy[i] != i)
 			{
+				ret = false;
+				break;
+			}
+		}
+
+		return ret;
+	}
+
+	// And now the same again, line for line, but with Integer[]
+
+	public static boolean isValidCompactVector(List<Integer> vec)
+	{
+		// vec = java.util.Collections.unmodifiableList(vec); // makes no difference (other than giving us some assurances)
+
+		boolean ret = true;
+
+		final int outSz = vec.size();
+
+		for (int i = 0; i != outSz; ++i) {
+			final int got = vec.get(i);
+			final int maxAllowed = outSz - (i + 1);
+
+			// assert(got <= maxAllowed);
+			if ((got > maxAllowed) || (got < 0)) {
 				ret = false;
 				break;
 			}
@@ -239,21 +264,8 @@ public final class VectorConversions {
 			workingVector.remove(indexIntoWorkingVec);
 		}
 
-		assert(workingVector.isEmpty());
-
-
-		// TODO REMOVE THIS DUPLICATE
-		{
-			final int outSz = outputVector.size();
-			for (int i = 0; i != outSz; ++i)
-			{
-				final int got = outputVector.get(i);
-				final int maxAllowed = outSz - (i + 1);
-
-				assert(got <= maxAllowed);
-			}
-		}
-
+		assert( workingVector.isEmpty() );
+		assert( isValidCompactVector(outputVector) );
 
 		// Clumsily convert from List<Integer> to int[]
 
