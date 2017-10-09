@@ -125,7 +125,7 @@ public final class VectorConversions {
 	 * @return
 	 * @throws NumberTooGreatException
 	 */
-	public static BigInteger[] intToCompactVector(final int extent, final BigInteger secretNum)
+	public static int[] intToCompactVector(final int extent, final BigInteger secretNum)
 			throws NumberTooGreatException
 	{
 		TxtShuffle.throwNtgeIfTooGreat(extent, secretNum); // Ensure we have enough bits to play with
@@ -163,22 +163,22 @@ public final class VectorConversions {
 
 		// reverse the order as we return
 
-		final BigInteger[] ret = new BigInteger[al.size()];
+		final int[] ret = new int[al.size()];
 		final int lastIndex = ret.length - 1;
 
 		for (int i = 0; i != ret.length; ++i)
 		{
 			int oppositeEnd = lastIndex - i;
-			ret[i] = al.get(oppositeEnd);
+			ret[i] = al.get(oppositeEnd).intValue(); // TODO proper checks here
 		}
 
-		assert(java.util.Arrays.equals(ret, intToCompactVector_Fast(extent,secretNum)));
+		// assert(java.util.Arrays.equals(ret, intToCompactVector_Fast(extent,secretNum)));
 
 		return ret;
 	}
 
 
-
+// TODO compact vector will be fine with int[] not BigInteger[]
 	public static BigInteger[] intToCompactVector_Fast(final int extent, final BigInteger secretNum)
 			throws NumberTooGreatException
 	{

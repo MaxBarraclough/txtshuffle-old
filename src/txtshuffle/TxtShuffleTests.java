@@ -110,17 +110,17 @@ public final class TxtShuffleTests {
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
 		// TODO ugly conversion business again ///////////////////////////////
-		final BigInteger[] compact_BIs =
+		final int[] compact =
 				VectorConversions.intToCompactVector(
 				  strs.length,
 				  secretNum
 				);
 
-		final int[] compact = new int[compact_BIs.length];
-		for(int i = 0; i != compact.length; ++i)
-		{
-			compact[i] = compact_BIs[i].intValue();
-		}
+//		final int[] compact = new int[compact_BIs.length];
+//		for(int i = 0; i != compact.length; ++i)
+//		{
+//			compact[i] = compact_BIs[i].intValue();
+//		}
 
 		//////////////////////////////////////////////////////////////////////
 

@@ -124,18 +124,18 @@ public final class VectorConversionsTests {
 
 		// TODO nasty conversion business /////////////////////////
 
-		final BigInteger[] compactFromInt_BIs
+		final int[] compactFromInt
 		  = VectorConversions.intToCompactVector(
 				  10,
 				  secretNum
 		    );
 
 
-		final int[] compactFromInt = new int[compactFromInt_BIs.length];
-		for(int i = 0; i != compactFromInt.length; ++i)
-		{
-			compactFromInt[i] = compactFromInt_BIs[i].intValue();
-		}
+//		final int[] compactFromInt = new int[compactFromInt_BIs.length];
+//		for(int i = 0; i != compactFromInt.length; ++i)
+//		{
+//			compactFromInt[i] = compactFromInt_BIs[i].intValue();
+//		}
 
 		///////////////////////////////////////////////////////////
 
@@ -163,18 +163,18 @@ public final class VectorConversionsTests {
 
 		// TODO nasty conversion business /////////////////////////
 
-		final BigInteger[] compactFromInt_BIs
+		final int[] compactFromInt
 		  = VectorConversions.intToCompactVector(
 				  10,
 				  theBigInteger
 		    );
 
 
-		final int[] compactFromInt = new int[compactFromInt_BIs.length];
-		for(int i = 0; i != compactFromInt.length; ++i)
-		{
-			compactFromInt[i] = compactFromInt_BIs[i].intValue();
-		}
+//		final int[] compactFromInt = new int[compactFromInt_BIs.length];
+//		for(int i = 0; i != compactFromInt.length; ++i)
+//		{
+//			compactFromInt[i] = compactFromInt_BIs[i].intValue();
+//		}
 
 		///////////////////////////////////////////////////////////
 
