@@ -128,21 +128,14 @@ public final class VectorConversions {
 	public static BigInteger[] intToCompactVector(final int extent, final BigInteger secretNum)
 			throws NumberTooGreatException
 	{
-		// should probably take long,BigInteger
-
 		TxtShuffle.throwNtgeIfTooGreat(extent, secretNum); // Ensure we have enough bits to play with
 
 		final BigInteger extent_BI = BigInteger.valueOf(extent);
 
 		BigInteger acc = secretNum;
 
-		// int card = 1;
-		BigInteger card = BigInteger.ONE;
+		BigInteger card = BigInteger.ONE; // int card = 1;
 		// int would probably be fine but we'd end up converting to BigInteger anyway
-
-
-
-		// TODO this ArrayList can be eliminated. We can just work directly with arrays.
 
 		// build up this AL 'backwards' then reverse as we copy across to an array
 		final ArrayList<BigInteger> al = new ArrayList<BigInteger>(extent);
@@ -150,30 +143,74 @@ public final class VectorConversions {
 		for (int i = 0; i != extent; ++i)
 		{
 			// assert(card <= extent);
-			assert(card.compareTo(extent_BI) <= 0);
-
+			assert( card.compareTo(extent_BI) <= 0 );
 			// assert(card >= 0);
-			assert(card.compareTo(BigInteger.ZERO) >= 0);
+			assert( card.compareTo(BigInteger.ZERO) >= 0 );
+			assert(  acc.compareTo(BigInteger.ZERO) >= 0 ); // assert(acc >= 0);
 
-			assert( acc.compareTo(BigInteger.ZERO) >= 0 ); // assert(acc >= 0);
-
-			// final int temp = acc % card;
-			final BigInteger temp = acc.mod( card );
+			final BigInteger temp = acc.mod( card ); // final int temp = acc % card;
 			// first time round we do x%1 (yielding zero, of course), which is fine
 
 			al.add(temp);
 
-			// acc -= temp;
-			acc = acc.subtract(temp);
+			acc = acc.subtract(temp); // acc -= temp;
 
-			// assert(acc >= 0);
-			assert(acc.compareTo(BigInteger.ZERO) >= 0);
+			assert(acc.compareTo(BigInteger.ZERO) >= 0); // assert(acc >= 0);
 
-			// acc /= card; // first time round, divides by 1, which is fine
-			acc = acc.divide(card);
+			acc = acc.divide(card); // acc /= card; // first time round, divides by 1, which is fine
+			card = card.add(BigInteger.ONE); // ++card;
+		}
 
-			// ++card;
-			card = card.add(BigInteger.ONE);
+		// reverse the order as we return
+
+		final BigInteger[] ret = new BigInteger[al.size()];
+		final int lastIndex = ret.length - 1;
+
+		for (int i = 0; i != ret.length; ++i)
+		{
+			int oppositeEnd = lastIndex - i;
+			ret[i] = al.get(oppositeEnd);
+		}
+
+		assert(java.util.Arrays.equals(ret, intToCompactVector_Fast(extent,secretNum)));
+
+		return ret;
+	}
+
+
+
+
+	public static BigInteger[] intToCompactVector_Fast(final int extent, final BigInteger secretNum)
+			throws NumberTooGreatException
+	{
+		TxtShuffle.throwNtgeIfTooGreat(extent, secretNum); // Ensure we have enough bits to play with
+
+		final BigInteger extent_BI = BigInteger.valueOf(extent);
+
+		BigInteger acc = secretNum;
+
+		BigInteger card = BigInteger.ONE; // int card = 1;
+		// int would probably be fine but we'd end up converting to BigInteger anyway
+
+		final ArrayList<BigInteger> al = new ArrayList<BigInteger>(extent);
+
+		for (int i = 0; i != extent; ++i)
+		{
+			assert( card.compareTo(extent_BI) <= 0 ); // assert(card <= extent);
+			assert( card.compareTo(BigInteger.ZERO) >= 0 ); // assert(card >= 0);
+			assert(  acc.compareTo(BigInteger.ZERO) >= 0 ); // assert(acc >= 0);
+
+			final BigInteger temp = acc.mod( card ); // final int temp = acc % card;
+			// first time round we do x%1 (yielding zero, of course), which is fine
+
+			al.add(temp);
+
+			acc = acc.subtract(temp); // acc -= temp;
+
+			assert(acc.compareTo(BigInteger.ZERO) >= 0); // assert(acc >= 0);
+
+			acc = acc.divide(card); // acc /= card; // first time round, divides by 1, which is fine
+			card = card.add(BigInteger.ONE); // ++card;
 		}
 
 		// reverse the order as we return
@@ -189,6 +226,10 @@ public final class VectorConversions {
 
 		return ret;
 	}
+
+
+
+
 
 
 	/**
