@@ -179,7 +179,6 @@ public final class VectorConversions {
 
 
 
-
 	public static BigInteger[] intToCompactVector_Fast(final int extent, final BigInteger secretNum)
 			throws NumberTooGreatException
 	{
@@ -192,9 +191,9 @@ public final class VectorConversions {
 		BigInteger card = BigInteger.ONE; // int card = 1;
 		// int would probably be fine but we'd end up converting to BigInteger anyway
 
-		final ArrayList<BigInteger> al = new ArrayList<BigInteger>(extent);
+		final BigInteger[] ret = new BigInteger[extent];
 
-		for (int i = 0; i != extent; ++i)
+		for (int ii = extent - 1; ii >= 0; --ii)
 		{
 			assert( card.compareTo(extent_BI) <= 0 ); // assert(card <= extent);
 			assert( card.compareTo(BigInteger.ZERO) >= 0 ); // assert(card >= 0);
@@ -203,7 +202,7 @@ public final class VectorConversions {
 			final BigInteger temp = acc.mod( card ); // final int temp = acc % card;
 			// first time round we do x%1 (yielding zero, of course), which is fine
 
-			al.add(temp);
+			ret[ii] = temp; // al.add(temp);
 
 			acc = acc.subtract(temp); // acc -= temp;
 
@@ -211,17 +210,6 @@ public final class VectorConversions {
 
 			acc = acc.divide(card); // acc /= card; // first time round, divides by 1, which is fine
 			card = card.add(BigInteger.ONE); // ++card;
-		}
-
-		// reverse the order as we return
-
-		final BigInteger[] ret = new BigInteger[al.size()];
-		final int lastIndex = ret.length - 1;
-
-		for (int i = 0; i != ret.length; ++i)
-		{
-			int oppositeEnd = lastIndex - i;
-			ret[i] = al.get(oppositeEnd);
 		}
 
 		return ret;
