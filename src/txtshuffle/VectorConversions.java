@@ -191,8 +191,6 @@ public final class VectorConversions {
 	}
 
 
-// // TODO separate method for compact vector verification, for use by asserts
-
 	/**
 	 *
 	 * @param compactVector
