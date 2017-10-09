@@ -70,7 +70,31 @@ public final class VectorConversions {
 	}
 
 
-	public static boolean isValidCompactVector(int[] vec)
+
+	public static boolean isValidCompactVector(final BigInteger[] vec)
+	{
+		boolean ret = true;
+
+		final int outSz = vec.length;
+
+		for (int i = 0; i != outSz; ++i) {
+			final BigInteger got = vec[i];
+			final BigInteger maxAllowed = BigInteger.valueOf( outSz - (i + 1) );
+
+			// assert(got <= maxAllowed);
+			// if ((got > maxAllowed) || (got < 0)) {
+			if ((got.compareTo(maxAllowed) == 1) || (got.compareTo(BigInteger.ZERO) == -1)) {
+				ret = false;
+				break;
+			}
+		}
+
+		return ret;
+	}
+
+
+	// TODO delete if not needed
+	public static boolean isValidCompactVector(final int[] vec)
 	{
 		boolean ret = true;
 
@@ -268,6 +292,62 @@ public final class VectorConversions {
 
 		return outArr;
 	}
+
+
+
+
+
+
+
+
+
+	public static int[] compactToSwizzle(BigInteger[] compactVector)
+	{
+		assert(isValidCompactVector(compactVector));
+
+		// First set up the vector augmentation, as with usefulToCompact
+		// TODO comment this properly
+		final int sz = compactVector.length;
+
+		// TODO this is a disastrous choice of data structure!
+		// An 'AVL tree list' would make more sense.
+		final ArrayList<Integer> workingVector = new ArrayList<Integer>(sz);
+
+		for (int i = 0; i != sz; ++i)
+		{
+			workingVector.add(i);
+		}
+
+		final ArrayList<Integer> outputVector = new ArrayList<Integer>(sz);
+
+
+		for (int indexIntoCompactVec = 0; indexIntoCompactVec != sz; ++indexIntoCompactVec)
+		{
+			final int indexIntoWorkingVec = compactVector[indexIntoCompactVec];
+			final int val = workingVector.get(indexIntoWorkingVec);
+			outputVector.add(val);
+			workingVector.remove(indexIntoWorkingVec);
+		}
+
+		assert(workingVector.isEmpty());
+
+		// Clumsily convert from List<Integer> to int[]
+
+		final int outSz = outputVector.size();
+		final int[] outArr = new int[outSz];
+		for(int i = 0; i != outSz; ++i)
+		{
+			outArr[i] = outputVector.get(i);
+		}
+
+		assert(isValidSwizzleVector(outArr));
+
+		return outArr;
+	}
+
+
+
+
 
 
 
