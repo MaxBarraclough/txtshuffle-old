@@ -172,14 +172,14 @@ public final class VectorConversions {
 			ret[i] = al.get(oppositeEnd);
 		}
 
-		// assert(java.util.Arrays.equals(ret, intToCompactVector_Fast(extent,secretNum)));
+		assert(java.util.Arrays.equals(ret, intToCompactVector_Fast(extent,secretNum)));
 
 		return ret;
 	}
 
 
 // TODO compact vector will be fine with int[] not BigInteger[]
-	public static BigInteger[] intToCompactVector_Fast(final int extent, final BigInteger secretNum)
+	public static int[] intToCompactVector_Fast(final int extent, final BigInteger secretNum)
 			throws NumberTooGreatException
 	{
 		TxtShuffle.throwNtgeIfTooGreat(extent, secretNum); // Ensure we have enough bits to play with
@@ -191,7 +191,7 @@ public final class VectorConversions {
 		BigInteger card = BigInteger.ONE; // int card = 1;
 		// int would probably be fine but we'd end up converting to BigInteger anyway
 
-		final BigInteger[] ret = new BigInteger[extent];
+		final int[] ret = new int[extent];
 
 		for (int ii = extent - 1; ii >= 0; --ii)
 		{
@@ -202,7 +202,8 @@ public final class VectorConversions {
 			final BigInteger temp = acc.mod( card ); // final int temp = acc % card;
 			// first time round we do x%1 (yielding zero, of course), which is fine
 
-			ret[ii] = temp; // al.add(temp);
+			ret[ii] = temp.intValue(); // TODO proper check on this conversion
+			// al.add(temp);
 
 			acc = acc.subtract(temp); // acc -= temp;
 
