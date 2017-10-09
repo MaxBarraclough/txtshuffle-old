@@ -304,7 +304,6 @@ public final class VectorConversions {
 		}
 
 		final int[] outArr = new int[sz];
-		int outArr_i = 0;
 
 		for (int i = 0; i != sz; ++i)
 		{
@@ -314,15 +313,13 @@ public final class VectorConversions {
 			assert(indexIntoWorkingVec >= 0);
 
 			// outputVector.add(indexIntoWorkingVec);
-			outArr[outArr_i] = indexIntoWorkingVec;
-			++outArr_i;
+			outArr[i] = indexIntoWorkingVec;
 
 			workingVector.remove(indexIntoWorkingVec);
 		}
 
 		assert( workingVector.isEmpty() );
 		assert( isValidCompactVector(outArr) );
-		assert(isValidCompactVector(outArr));
 
 		return outArr;
 	}
