@@ -55,7 +55,7 @@ public final class TxtShuffleTests {
 	{
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
-		final int[] orderMapForFilesOrder = TxtShuffle.findSortingSwizzleVector(strs);
+		final int[] orderMapForFilesOrder = TxtShuffle.findSortingSwizzleVector_AVOID(strs); // // // TODO avoid the needless invert
 
 		final String[] strsSorted = strs.clone();
 		java.util.Arrays.sort(strsSorted);
@@ -145,9 +145,10 @@ public final class TxtShuffleTests {
 
 // Now let's go back and retrieve the number
 
-		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingSwizzleVector(strsEncodingNum);
+//		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingSwizzleVector_AVOID(strsEncodingNum);
+//		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingOrderMap);
 
-		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingOrderMap);
+		final int[] retrievedUseful = TxtShuffle.findInverseOfSortingSwizzleVec(strsEncodingNum);
 
 		org.junit.Assert.assertArrayEquals(retrievedUseful, useful);
 

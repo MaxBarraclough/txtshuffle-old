@@ -110,9 +110,10 @@ public final class TxtShuffle {
 
 	public static BigInteger retrieveNumberFromData(String[] data)
 	{
-		final int[] retrievedSortingSwizzleVec = TxtShuffle.findSortingSwizzleVector(data);
+//		final int[] retrievedSortingSwizzleVec = TxtShuffle.findSortingSwizzleVector(data);
+//		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingSwizzleVec);
 
-		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingSwizzleVec);
+		final int[] retrievedUseful = TxtShuffle.findInverseOfSortingSwizzleVec(data);
 
 		final int[] retrievedCompact = VectorConversions.swizzleToCompact(retrievedUseful);
 
@@ -193,11 +194,12 @@ public final class TxtShuffle {
 
 
 /**
+ * AVOID this method - we want to avoid doing that invert!
  * Find the swizzle vector which transforms the original data into its sorted order
  * @param inputData
  * @return
  */
-	public static int[] findSortingSwizzleVector(final String[] inputData)
+	public static int[] findSortingSwizzleVector_AVOID(final String[] inputData)
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
@@ -230,6 +232,53 @@ public final class TxtShuffle {
 
 		return ret;
 	}
+
+
+
+
+
+
+/**
+ * AVOID this method - we want to avoid doing that invert!
+ * Find the swizzle vector which transforms the original data into its sorted order
+ * @param inputData
+ * @return
+ */
+	public static int[] findInverseOfSortingSwizzleVec(final String[] inputData)
+	{
+		// We sort, but we sort an int array, treating them as indices into our data.
+		// The result is an int array which specifies the order of the sorted data.
+		// This *isn't* the same thing as the swizzle-vec which transforms the data into its sorted order!
+		// It's actually the *inverse*. Fortunately, this is just as useful.
+
+		final Integer[] swizzeVecBoxed = new Integer[inputData.length];
+
+		for (int i = 0; i != swizzeVecBoxed.length; ++i)
+		{
+			swizzeVecBoxed[i] = i;
+		}
+
+		final CustomIntegerComparator c = new CustomIntegerComparator(inputData);
+
+		java.util.Arrays.sort(swizzeVecBoxed,c);
+
+
+		// Laboriously unbox
+
+		final int[] unboxedArr = new int[swizzeVecBoxed.length];
+
+		for (int i = 0; i != unboxedArr.length; ++i)
+		{
+			unboxedArr[i] = swizzeVecBoxed[i];
+		}
+
+		return unboxedArr;
+	}
+
+
+
+
+
 
 
 
