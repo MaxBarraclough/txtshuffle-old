@@ -20,7 +20,7 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 // Or is the mult. not so bad, as the smaller of the two operands is bounded by n (the row count)?
 
 
-// TODO composition of order maps. Is this preferable to repeated transformations? Probably about the same...
+// TODO composition of swizzle vectors. Is this preferable to repeated transformations? Probably about the same...
 
 
 // TODO assert well-formed swizzle vectors. No repetition, no out-of-bounds values.

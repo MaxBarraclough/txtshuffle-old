@@ -65,13 +65,13 @@ public final class TxtShuffleTests {
 
 
 		final String[] strsAfterSortingOrder =
-		  TxtShuffle.applyOrderMapToStringArr(strs, orderMapForFilesOrder);
+		  TxtShuffle.applySwizzleVectorToStringArr(strs, orderMapForFilesOrder);
 
 		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
 
 		final int[] reversedOrderMap = TxtShuffle.invertSwizzleVector(orderMapForFilesOrder);
 		final String[] strsUnsorted = strs.clone();
-		TxtShuffle.applyOrderMapToStringArr(strsUnsorted, reversedOrderMap);
+		TxtShuffle.applySwizzleVectorToStringArr(strsUnsorted, reversedOrderMap);
 
 		org.junit.Assert.assertArrayEquals(strs, strsUnsorted);
 	}
@@ -131,7 +131,7 @@ public final class TxtShuffleTests {
 		final String[] strsSorted = strs.clone();
 		java.util.Arrays.sort(strsSorted);
 
-		final String[] strsEncodingNum = TxtShuffle.applyOrderMapToStringArr(strsSorted, useful);
+		final String[] strsEncodingNum = TxtShuffle.applySwizzleVectorToStringArr(strsSorted, useful);
 
 		{
 			final boolean shouldBeFalse = java.util.Arrays.equals(strs, strsEncodingNum);

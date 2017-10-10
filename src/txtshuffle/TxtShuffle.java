@@ -14,7 +14,7 @@ public final class TxtShuffle {
 	// TODO move code away from arrays and toward.... something else... some interface?
 
 	// TODO if we care more about fast decode than fast encode,
-	// we should do the inverseOrderMap on the encode side, not on the decode side
+	// we should do the inverseSwizzleVector on the encode side, not on the decode side
 
 
 	public final static class NumberTooGreatException extends Exception
@@ -94,15 +94,14 @@ public final class TxtShuffle {
 
 		//////////////////////////////////////////////////////////////
 
-
 		final int[] useful = VectorConversions.compactToSwizzle(compact);
 
-		// final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs);
+		// final int[] swizzleVectorForFilesOrder = TxtShuffle.findSortingSwizzleVector(strs);
 		// No! Not needed for the encode direction, only for decode.
 
 		java.util.Arrays.sort(strs); // Mutates existing array
 
-		final String[] strsEncodingNum = TxtShuffle.applyOrderMapToStringArr(strs, useful);
+		final String[] strsEncodingNum = TxtShuffle.applySwizzleVectorToStringArr(strs, useful);
 
 		return strsEncodingNum;
 	}
@@ -111,9 +110,9 @@ public final class TxtShuffle {
 
 	public static BigInteger retrieveNumberFromData(String[] data)
 	{
-		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingSwizzleVector(data);
+		final int[] retrievedSortingSwizzleVec = TxtShuffle.findSortingSwizzleVector(data);
 
-		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingOrderMap);
+		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingSwizzleVec);
 
 		final int[] retrievedCompact = VectorConversions.swizzleToCompact(retrievedUseful);
 
@@ -151,7 +150,7 @@ public final class TxtShuffle {
 
 	}
 
-	// All this order-map business is analogous to matrix product, but that wouldn't buy us anything in implementation
+	// All this swizzle vec business is analogous to matrix product, but that wouldn't buy us anything in implementation
 
 
 
@@ -188,8 +187,8 @@ public final class TxtShuffle {
 
 
 
-	// TODO the final inversion stage in findSortingOrderMap can be omitted if we
-	// just apply the inverse order map vector, instead.
+	// TODO the final inversion stage in findSwizzleVector can be omitted if we
+	// just apply the inverse swizzle vector, instead.
 	// This shouldn't be any harder.
 
 
@@ -202,28 +201,28 @@ public final class TxtShuffle {
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
-		// This *isn't* the same thing as the order-map which transforms the data into its sorted order!
-		// It's actually the *inverse*. So we order-map-invert the int array, and return that.
+		// This *isn't* the same thing as the swizzle-vec which transforms the data into its sorted order!
+		// It's actually the *inverse*. So we 'invert' the swizzle vector, and return that.
 
-		final Integer[] orderMapBoxed = new Integer[inputData.length];
+		final Integer[] swizzeVecBoxed = new Integer[inputData.length];
 
-		for (int i = 0; i != orderMapBoxed.length; ++i)
+		for (int i = 0; i != swizzeVecBoxed.length; ++i)
 		{
-			orderMapBoxed[i] = i;
+			swizzeVecBoxed[i] = i;
 		}
 
 		final CustomIntegerComparator c = new CustomIntegerComparator(inputData);
 
-		java.util.Arrays.sort(orderMapBoxed,c);
+		java.util.Arrays.sort(swizzeVecBoxed,c);
 
 
 		// Laboriously unbox
 
-		final int[] unboxedArr = new int[orderMapBoxed.length];
+		final int[] unboxedArr = new int[swizzeVecBoxed.length];
 
 		for (int i = 0; i != unboxedArr.length; ++i)
 		{
-			unboxedArr[i] = orderMapBoxed[i];
+			unboxedArr[i] = swizzeVecBoxed[i];
 		}
 
 		// Invert
@@ -237,15 +236,15 @@ public final class TxtShuffle {
 	// TODO move to some other class?
 	// If we were using matrix-product to implement our vector swizzling,
 	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
-	public static int[] invertSwizzleVector(final int[] orderMap)
+	public static int[] invertSwizzleVector(final int[] swizzleVec)
 	{
-		assert( VectorConversions.isValidSwizzleVector(orderMap) );
+		assert( VectorConversions.isValidSwizzleVector(swizzleVec) );
 
-		final int[] reversed = new int[orderMap.length];
+		final int[] reversed = new int[swizzleVec.length];
 
-		for (int i = 0; i != orderMap.length; ++i)
+		for (int i = 0; i != swizzleVec.length; ++i)
 		{
-			final int index = orderMap[i];
+			final int index = swizzleVec[i];
 			reversed[index] = i;
 		}
 
@@ -259,17 +258,17 @@ public final class TxtShuffle {
 	 * @param input
 	 * @return
 	 */
-	public static String[] applyOrderMapToStringArr(final String[] input, final int[] orderMap)
+	public static String[] applySwizzleVectorToStringArr(final String[] input, final int[] swizzleVec)
 	{
-		assert(input.length == orderMap.length); // explodes if either is null
-		assert(VectorConversions.isValidSwizzleVector(orderMap));
+		assert(input.length == swizzleVec.length); // explodes if either is null
+		assert(VectorConversions.isValidSwizzleVector(swizzleVec));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
 
 		for (int i = 0; i != input.length; ++i)
 		{
-			final int desiredIndex = orderMap[i];
+			final int desiredIndex = swizzleVec[i];
 			output[desiredIndex] = input[i];
 		}
 
@@ -291,10 +290,10 @@ public final class TxtShuffle {
 
 
 	/*
-	 * To encode, we want to convert a big number (or whatever) into an 'order map',
-	 * then apply that order map to the source data. (Assume uniqueness for now.)
+	 * To encode, we want to convert a big number (or whatever) into a 'swizzle vector' (a 'pivot vector'?),
+	 * then apply that swizzle vector to the source data. (Assume element-uniqueness for now.)
 	 *
-	 * To decode, we want to figure out what order map was applied, then map that back
+	 * To decode, we want to figure out what swizzle vector was applied, then map that back
 	 * to a big number (or whatever).
 	 */
 
@@ -313,29 +312,34 @@ public final class TxtShuffle {
 	 * which we can then reorder in a unique and reversible way.
 	 *
 	 *
-	 * Definition of an order map:
+	 * Definition of a swizzle vector:
 	 *
-	 * An order map is a data structure which maps each entity to its index in the output array.
-	 * Applying an order map, then, reorders the input array in a unique way (giving a unique output).
+	 * A swizzle vector is a data structure which maps each entity to its index in the output array.
+	 * Applying an swizzle vector, then, reorders the input array in a unique way (giving a unique output).
+	 *
+	 * It's name reflects the 'swizzle' feature of, for example, OpenCL C, where
+	 *   myVec1.xyz = myVec1.zyx;
+	 * will reverse the elements of the myVec1 vector.
+	 *
 	 *
 	 * We can use an array for the purpose, such that
 	 *   orderMapArray[n] == m
 	 * means we should do
 	 *   outputArray[m] = inputArray[n]
 	 *
-	 * REPHRASE THIS We can represent an order map as a number,
-	 * such that each order map corresponds to
+	 * REPHRASE THIS We can represent a swizzle vector as a number,
+	 * such that each swizzle vector corresponds to
 	 * exactly one number in an interval from 0 to some max. number,
-	 * and such that each number in that interval corresponds to exactly one order map.
+	 * and such that each number in that interval corresponds to exactly one swizzle vector.
 	 *
 	 * To do this mapping, it's easier to first consider the function which takes us from
-	 * the order map to the unique number.
+	 * the swizzle vector to the unique number.
 	 *
 	 * REWRITE THIS:
 	 *
-	 * Given an order map of length L:
+	 * Given a swizzle vector of length L:
 	 * set up an accumulator, initializing at 0
-	 * iterate through the order map, and for each element:
+	 * iterate through the swizzle vector, and for each element:
 	 *   'multiply up' the accumulator to 'make space' for this slot.
 	 *   For the first element that means do nothing, for subsequent ones,
 	 *   multiply by MAXPOSSIBLE-1....
@@ -349,7 +353,7 @@ public final class TxtShuffle {
 	 *   I THINK WE NEED TO DO MORE WORK HERE, INDEXING INTO THE CANDIDATE INDICES SPACE, NOT
 	 *   THE FULL INDICES SPACE
 	 *
-	 * GOING FORWARD WE BUILD 2 ORDER MAPS THEN WE COMBINE THEM THEN WE CONVERT TO NUMBER
+	 * GOING FORWARD WE BUILD 2 SWIZZLE VECTORS THEN WE COMBINE THEM THEN WE CONVERT TO NUMBER
 	 *
 	 * We generate an output array from a sorted input array by
 	 * 1.   Invert the map (create a new one which gives us the inverse relation)
@@ -358,17 +362,17 @@ public final class TxtShuffle {
 	 * iterating through
 	 * the input array and
 	 *
-	 * Decoding an order map:
+	 * Decoding a swizzle vector:
 	 * Given a map of n many elements,
 	 *
 	 *
 	 *
-	 * Generating the order map:
+	 * Generating the swizzle vector:
 	 *
 	 *
 	 * So, using the intrinsic approach:
 	 * 1.   Sort the annotated array.
-	 * 2.   Consulting the order-map and the now-sorted annotated array, write the output data
+	 * 2.   Consulting the swizzle vector and the now-sorted annotated array, write the output data
 	 */
 
 //	public static void main(String[] args) {
