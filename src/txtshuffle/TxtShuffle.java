@@ -113,7 +113,7 @@ public final class TxtShuffle {
 	{
 		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingOrderMap(data);
 
-		final int[] retrievedUseful = TxtShuffle.inverseOrderMap(retrievedSortingOrderMap);
+		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingOrderMap);
 
 		final int[] retrievedCompact = VectorConversions.swizzleToCompact(retrievedUseful);
 
@@ -194,7 +194,7 @@ public final class TxtShuffle {
 
 
 /**
- * Find the order map which transforms the original data into its sorted order
+ * Find the swizzle vector which transforms the original data into its sorted order
  * @param inputData
  * @return
  */
@@ -226,8 +226,8 @@ public final class TxtShuffle {
 			unboxedArr[i] = orderMapBoxed[i];
 		}
 
-		// Inverse
-		final int[] ret = TxtShuffle.inverseOrderMap(unboxedArr);
+		// Invert
+		final int[] ret = TxtShuffle.invertSwizzleVector(unboxedArr);
 
 		return ret;
 	}
@@ -237,7 +237,7 @@ public final class TxtShuffle {
 	// TODO move to some other class?
 	// If we were using matrix-product to implement our vector swizzling,
 	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
-	public static int[] inverseOrderMap(final int[] orderMap)
+	public static int[] invertSwizzleVector(final int[] orderMap)
 	{
 		assert( VectorConversions.isValidSwizzleVector(orderMap) );
 

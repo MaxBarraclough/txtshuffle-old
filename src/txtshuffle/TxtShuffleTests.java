@@ -37,13 +37,13 @@ public final class TxtShuffleTests {
 
 		final int[] usefulArr = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // non involutory
 
-		final int[] reversed = TxtShuffle.inverseOrderMap(usefulArr);
+		final int[] reversed = TxtShuffle.invertSwizzleVector(usefulArr);
 
 		final boolean shouldBeFalse = java.util.Arrays.equals(usefulArr, reversed);
 
 		org.junit.Assert.assertFalse(shouldBeFalse);
 
-		final int[] backAgain = TxtShuffle.inverseOrderMap(reversed);
+		final int[] backAgain = TxtShuffle.invertSwizzleVector(reversed);
 
 		org.junit.Assert.assertArrayEquals(usefulArr, backAgain);
 
@@ -69,7 +69,7 @@ public final class TxtShuffleTests {
 
 		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
 
-		final int[] reversedOrderMap = TxtShuffle.inverseOrderMap(orderMapForFilesOrder);
+		final int[] reversedOrderMap = TxtShuffle.invertSwizzleVector(orderMapForFilesOrder);
 		final String[] strsUnsorted = strs.clone();
 		TxtShuffle.applyOrderMapToStringArr(strsUnsorted, reversedOrderMap);
 
@@ -147,7 +147,7 @@ public final class TxtShuffleTests {
 
 		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingOrderMap(strsEncodingNum);
 
-		final int[] retrievedUseful = TxtShuffle.inverseOrderMap(retrievedSortingOrderMap);
+		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingOrderMap);
 
 		org.junit.Assert.assertArrayEquals(retrievedUseful, useful);
 
