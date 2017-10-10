@@ -206,25 +206,25 @@ public final class TxtShuffle {
 		// This *isn't* the same thing as the swizzle-vec which transforms the data into its sorted order!
 		// It's actually the *inverse*. So we 'invert' the swizzle vector, and return that.
 
-		final Integer[] swizzeVecBoxed = new Integer[inputData.length];
+		final Integer[] swizzleVecBoxed = new Integer[inputData.length];
 
-		for (int i = 0; i != swizzeVecBoxed.length; ++i)
+		for (int i = 0; i != swizzleVecBoxed.length; ++i)
 		{
-			swizzeVecBoxed[i] = i;
+			swizzleVecBoxed[i] = i;
 		}
 
 		final CustomIntegerComparator c = new CustomIntegerComparator(inputData);
 
-		java.util.Arrays.sort(swizzeVecBoxed,c);
+		java.util.Arrays.sort(swizzleVecBoxed,c);
 
 
 		// Laboriously unbox
 
-		final int[] unboxedArr = new int[swizzeVecBoxed.length];
+		final int[] unboxedArr = new int[swizzleVecBoxed.length];
 
 		for (int i = 0; i != unboxedArr.length; ++i)
 		{
-			unboxedArr[i] = swizzeVecBoxed[i];
+			unboxedArr[i] = swizzleVecBoxed[i];
 		}
 
 		// Invert
@@ -251,25 +251,25 @@ public final class TxtShuffle {
 		// This *isn't* the same thing as the swizzle-vec which transforms the data into its sorted order!
 		// It's actually the *inverse*. Fortunately, this is just as useful.
 
-		final Integer[] swizzeVecBoxed = new Integer[inputData.length];
+		final Integer[] swizzleVecBoxed = new Integer[inputData.length];
 
-		for (int i = 0; i != swizzeVecBoxed.length; ++i)
+		for (int i = 0; i != swizzleVecBoxed.length; ++i)
 		{
-			swizzeVecBoxed[i] = i;
+			swizzleVecBoxed[i] = i;
 		}
 
 		final CustomIntegerComparator c = new CustomIntegerComparator(inputData);
 
-		java.util.Arrays.sort(swizzeVecBoxed,c);
+		java.util.Arrays.sort(swizzleVecBoxed,c);
 
 
 		// Laboriously unbox
 
-		final int[] unboxedArr = new int[swizzeVecBoxed.length];
+		final int[] unboxedArr = new int[swizzleVecBoxed.length];
 
 		for (int i = 0; i != unboxedArr.length; ++i)
 		{
-			unboxedArr[i] = swizzeVecBoxed[i];
+			unboxedArr[i] = swizzleVecBoxed[i];
 		}
 
 		return unboxedArr;
