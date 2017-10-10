@@ -226,7 +226,9 @@ public final class VectorConversions {
 	 * @param compactVector
 	 * Must *not* omit the final element, i.e. final element must be 0
 	 *
-	 * @return
+	 * @return The corresponding 'permutation index', as in
+	 * http://www.geekviewpoint.com/java/numbers/permutation_index
+	 * TODO equivalent to http://mathworld.wolfram.com/PermutationIndex.html ???
 	 */
 	public static BigInteger compactVectorToInt(final int[] compactVector)
 	{
