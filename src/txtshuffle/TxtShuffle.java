@@ -111,7 +111,7 @@ public final class TxtShuffle {
 
 	public static BigInteger retrieveNumberFromData(String[] data)
 	{
-		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingOrderMap(data);
+		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingSwizzleVector(data);
 
 		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingOrderMap);
 
@@ -198,7 +198,7 @@ public final class TxtShuffle {
  * @param inputData
  * @return
  */
-	public static int[] findSortingOrderMap(final String[] inputData)
+	public static int[] findSortingSwizzleVector(final String[] inputData)
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.

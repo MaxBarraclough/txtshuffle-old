@@ -55,7 +55,7 @@ public final class TxtShuffleTests {
 	{
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
-		final int[] orderMapForFilesOrder = TxtShuffle.findSortingOrderMap(strs);
+		final int[] orderMapForFilesOrder = TxtShuffle.findSortingSwizzleVector(strs);
 
 		final String[] strsSorted = strs.clone();
 		java.util.Arrays.sort(strsSorted);
@@ -145,7 +145,7 @@ public final class TxtShuffleTests {
 
 // Now let's go back and retrieve the number
 
-		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingOrderMap(strsEncodingNum);
+		final int[] retrievedSortingOrderMap = TxtShuffle.findSortingSwizzleVector(strsEncodingNum);
 
 		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingOrderMap);
 
