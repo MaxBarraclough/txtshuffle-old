@@ -43,7 +43,7 @@ public final class VectorConversions {
 	 * @param vec
 	 * @return
 	 */
-	public static boolean isValidSwizzleVector(int[] vec)
+	public static boolean isValidSwizzleVector(final int[] vec)
 	{
 		boolean ret = true;
 
@@ -72,7 +72,7 @@ public final class VectorConversions {
 
 	// And now the same again, line for line, but with Integer[]
 
-	public static boolean isValidCompactVector(List<Integer> vec)
+	public static boolean isValidCompactVector(final List<Integer> vec)
 	{
 		// vec = java.util.Collections.unmodifiableList(vec); // makes no difference (other than giving us some assurances)
 
@@ -95,7 +95,7 @@ public final class VectorConversions {
 	}
 
 
-	public static boolean isValidCompactVector(int[] vec)
+	public static boolean isValidCompactVector(final int[] vec)
 	{
 		boolean ret = true;
 
@@ -150,6 +150,8 @@ public final class VectorConversions {
 
 			final BigInteger temp = acc.mod( card ); // final int temp = acc % card;
 			// first time round we do x%1 (yielding zero, of course), which is fine
+
+
 
 			al.add(temp.intValue()); // TODO proper check on this conversion
 
