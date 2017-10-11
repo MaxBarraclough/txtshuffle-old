@@ -326,6 +326,35 @@ public final class TxtShuffle {
 
 
 
+
+	public static String[] applyInvSwizzleVectorToStringArr(final String[] input, final int[] invSwizzleVec)
+	{
+		assert(input.length == invSwizzleVec.length); // explodes if either is null
+		assert(VectorConversions.isValidSwizzleVector(invSwizzleVec));
+		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
+
+		final String[] output = new String[input.length];
+
+		for (int i = 0; i != input.length; ++i)
+		{
+			// final int desiredIndex = swizzleVec[i];
+			// String valToAssign = input[i];
+			// output[desiredIndex] = valToAssign;
+
+			// With a forward swizzle vector, vec[x] == y means do out[y] = input[x]
+			// with an inv. swizzle vect,     vec[x] == y means do out[x] = input[y]
+
+			final int desiredIndex = i;
+			String valToAssign = input[invSwizzleVec[i]];
+			output[desiredIndex] = valToAssign;
+		}
+
+		assert(java.util.Arrays.equals(applySwizzleVectorToStringArr(input,invertSwizzleVector(invSwizzleVec)), output));
+
+		return output;
+	}
+
+
 	// EXTRINSIC WINS, THERE'S NO POINT HAULING PAIR OBJECTS AROUND
 
 
