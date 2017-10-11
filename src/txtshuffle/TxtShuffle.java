@@ -108,7 +108,7 @@ public final class TxtShuffle {
 
 
 
-	public static BigInteger retrieveNumberFromData(String[] data)
+	public static BigInteger retrieveNumberFromData(final String[] data)
 	{
 //		final int[] retrievedSortingSwizzleVec = TxtShuffle.findSortingSwizzleVector(data);
 //		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingSwizzleVec);
@@ -156,7 +156,7 @@ public final class TxtShuffle {
 
 
 
-	public static String[] readFileIntoStringArr(String path) throws IOException
+	public static String[] readFileIntoStringArr(final String path) throws IOException
 	{
 		// inspired by https://stackoverflow.com/a/326440
 		final List<String> lines = Files.readAllLines(Paths.get(path), Charset.defaultCharset());
