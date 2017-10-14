@@ -9,9 +9,9 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 
 // TODO no-allocate versions of the methods?
 
-// TODO machinery for applying an 'order vector' (a.k.a. a 'useful' vector)
-// TODO machinery to discover the order vector for an array of unique comparable values
-// TODO machinery to compose order vectors? invert them?
+// TODO machinery for applying an 'shuffle vector' (a.k.a. a 'useful' vector)
+// TODO machinery to discover the shuffle vector for an array of unique comparable values
+// TODO machinery to compose shuffle vectors? invert them?
 
 
 // TODO think about scaling the algorithm. Mult. is O(n^2). Perhaps break up the problem
