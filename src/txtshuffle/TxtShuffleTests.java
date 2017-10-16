@@ -54,7 +54,7 @@ public final class TxtShuffleTests {
 	{
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
-		final int[] filesSortingSwizzleVec = TxtShuffle.findSortingSwizzleVector_AVOID(strs);
+		final int[] filesSortingSwizzleVec = TxtShuffle.findSortingACTUALIsv_AVOID(strs);
 		// // // TODO avoid the needless invert
 
 		final String[] strsSorted = strs.clone();
@@ -69,7 +69,7 @@ public final class TxtShuffleTests {
 		  TxtShuffle.applyACTUALIsvToStringArr(strs, filesSortingSwizzleVec);
 
 		{
-			final int[] filesSortingInvSwizzleVec = TxtShuffle.findInverseOfSortingSwizzleVec(strs);
+			final int[] filesSortingInvSwizzleVec = TxtShuffle.findInverseOfSortingACTUALIsv(strs);
 
 			final String[] strsAfterSortingOrder_ =
 					  TxtShuffle.applyACTUALSvToStringArr(strs, filesSortingInvSwizzleVec);
@@ -158,7 +158,7 @@ public final class TxtShuffleTests {
 //		final int[] retrievedSortingSwizzleVec = TxtShuffle.findSortingSwizzleVector_AVOID(strsEncodingNum);
 //		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingSwizzleVec);
 
-		final int[] retrievedUseful = TxtShuffle.findInverseOfSortingSwizzleVec(strsEncodingNum);
+		final int[] retrievedUseful = TxtShuffle.findInverseOfSortingACTUALIsv(strsEncodingNum);
 
 		org.junit.Assert.assertArrayEquals(retrievedUseful, useful);
 
