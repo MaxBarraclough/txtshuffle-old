@@ -20,10 +20,10 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 // Or is the mult. not so bad, as the smaller of the two operands is bounded by n (the row count)?
 
 
-// TODO composition of swizzle vectors. Is this preferable to repeated transformations? Probably about the same...
+// TODO composition of ACTUALISVs. Is this preferable to repeated transformations? Probably about the same...
 
 
-// TODO assert well-formed swizzle vectors. No repetition, no out-of-bounds values.
+// TODO assert well-formed ACTUALISVs. No repetition, no out-of-bounds values.
 
 // TODO eliminate pointless intermediate ArrayLists and boxing
 
@@ -268,51 +268,51 @@ public final class VectorConversions {
 
 	// TODO avoid linear-time horrors in this one, using AVL tree list
 
-	public static int[] swizzleToCompact(final int[] swizzleVec)
+	public static int[] ACTUALisvToCompact(final int[] ACTUALisv)
 	{
-		assert(isValidACTUALIsv(swizzleVec)); // TODO should conditionally throw?
+		assert(isValidACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
 
-		final int sz = swizzleVec.length;
+		final int sz = ACTUALisv.length;
 
 		// TODO this is a disastrous choice of data structure!
 		// An 'AVL tree list' would make more sense.
-		final ArrayList<Integer> workingVector = new ArrayList<Integer>(sz);
+		final ArrayList<Integer> workingVec = new ArrayList<Integer>(sz);
 
 		for (int i = 0; i != sz; ++i)
 		{
-			workingVector.add(i);
+			workingVec.add(i);
 		}
 
-		final ArrayList<Integer> outputVector = new ArrayList<Integer>(sz);
+		final ArrayList<Integer> outputVec = new ArrayList<Integer>(sz);
 
 		for (int i = 0; i != sz; ++i)
 		{
-			final int searchingFor = swizzleVec[i];
-			final int indexIntoWorkingVec = workingVector.indexOf(searchingFor);
+			final int searchingFor = ACTUALisv[i];
+			final int indexIntoWorkingVec = workingVec.indexOf(searchingFor);
 
 			assert(indexIntoWorkingVec >= 0);
 
-			outputVector.add(indexIntoWorkingVec);
-			workingVector.remove(indexIntoWorkingVec);
+			outputVec.add(indexIntoWorkingVec);
+			workingVec.remove(indexIntoWorkingVec);
 		}
 
-		assert( workingVector.isEmpty() );
-		assert( isValidCompactVector(outputVector) );
+		assert( workingVec.isEmpty() );
+		assert( isValidCompactVector(outputVec) );
 
 		// Clumsily convert from List<Integer> to int[]
 
-		final int outSz = outputVector.size();
+		final int outSz = outputVec.size();
 		final int[] outArr = new int[outSz];
 		for(int i = 0; i != outSz; ++i)
 		{
-			outArr[i] = outputVector.get(i);
+			outArr[i] = outputVec.get(i);
 		}
 
 		assert(isValidCompactVector(outArr));
 
 		assert(java.util.Arrays.equals(
 				outArr,
-				swizzleToCompact_Fast(swizzleVec)
+				ACTUALisvToCompact_Fast(ACTUALisv)
 		       ));
 
 
@@ -320,37 +320,37 @@ public final class VectorConversions {
 	}
 
 
-	public static int[] swizzleToCompact_Fast(final int[] swizzleVec)
+	public static int[] ACTUALisvToCompact_Fast(final int[] ACTUALisv)
 	{
-		assert(isValidACTUALIsv(swizzleVec)); // TODO should conditionally throw?
+		assert(isValidACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
 
-		final int sz = swizzleVec.length;
+		final int sz = ACTUALisv.length;
 
 		// TODO this is a disastrous choice of data structure!
 		// An 'AVL tree list' would make more sense.
-		final ArrayList<Integer> workingVector = new ArrayList<Integer>(sz);
+		final ArrayList<Integer> workingVec = new ArrayList<Integer>(sz);
 
 		for (int i = 0; i != sz; ++i)
 		{
-			workingVector.add(i);
+			workingVec.add(i);
 		}
 
 		final int[] outArr = new int[sz];
 
 		for (int i = 0; i != sz; ++i)
 		{
-			final int searchingFor = swizzleVec[i];
-			final int indexIntoWorkingVec = workingVector.indexOf(searchingFor);
+			final int searchingFor = ACTUALisv[i];
+			final int indexIntoWorkingVec = workingVec.indexOf(searchingFor);
 
 			assert(indexIntoWorkingVec >= 0);
 
 			// outputVector.add(indexIntoWorkingVec);
 			outArr[i] = indexIntoWorkingVec;
 
-			workingVector.remove(indexIntoWorkingVec);
+			workingVec.remove(indexIntoWorkingVec);
 		}
 
-		assert( workingVector.isEmpty() );
+		assert( workingVec.isEmpty() );
 		assert( isValidCompactVector(outArr) );
 
 		return outArr;
@@ -371,11 +371,11 @@ public final class VectorConversions {
 
 		// TODO this is a disastrous choice of data structure!
 		// An 'AVL tree list' would make more sense.
-		final ArrayList<Integer> workingVector = new ArrayList<Integer>(sz);
+		final ArrayList<Integer> workingVec = new ArrayList<Integer>(sz);
 
 		for (int i = 0; i != sz; ++i)
 		{
-			workingVector.add(i);
+			workingVec.add(i);
 		}
 
 		final ArrayList<Integer> outputVector = new ArrayList<Integer>(sz);
@@ -384,12 +384,12 @@ public final class VectorConversions {
 		for (int indexIntoCompactVec = 0; indexIntoCompactVec != sz; ++indexIntoCompactVec)
 		{
 			final int indexIntoWorkingVec = compactVector[indexIntoCompactVec];
-			final int val = workingVector.get(indexIntoWorkingVec);
+			final int val = workingVec.get(indexIntoWorkingVec);
 			outputVector.add(val);
-			workingVector.remove(indexIntoWorkingVec);
+			workingVec.remove(indexIntoWorkingVec);
 		}
 
-		assert(workingVector.isEmpty());
+		assert(workingVec.isEmpty());
 
 		// Clumsily convert from List<Integer> to int[]
 

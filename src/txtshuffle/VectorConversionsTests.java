@@ -144,7 +144,7 @@ public final class VectorConversionsTests {
 
 		org.junit.Assert.assertArrayEquals(expectedOutputArr, ACTUALisvFromCompact);
 
-		final int[] backToCompactFromACTUALIsv = VectorConversions.swizzleToCompact(ACTUALisvFromCompact);
+		final int[] backToCompactFromACTUALIsv = VectorConversions.ACTUALisvToCompact(ACTUALisvFromCompact);
 
 		final BigInteger backToInt = VectorConversions.compactVectorToInt(backToCompactFromACTUALIsv);
 
@@ -179,13 +179,13 @@ public final class VectorConversionsTests {
 		///////////////////////////////////////////////////////////
 
 
-		final int[] swizzleVecFromCompact = VectorConversions.compactToACTUALIsv(compactFromInt);
+		final int[] ACTUALisvFromCompact = VectorConversions.compactToACTUALIsv(compactFromInt);
 
-		final int[] backToCompactFromSwizzle
-		  = VectorConversions.swizzleToCompact(swizzleVecFromCompact);
+		final int[] backToCompactFromACTUALIsv
+		  = VectorConversions.ACTUALisvToCompact(ACTUALisvFromCompact);
 
 		final BigInteger backToInt
-		  = VectorConversions.compactVectorToInt(backToCompactFromSwizzle);
+		  = VectorConversions.compactVectorToInt(backToCompactFromACTUALIsv);
 
 		org.junit.Assert.assertEquals(theBigInteger, backToInt);
 	}
@@ -195,32 +195,32 @@ public final class VectorConversionsTests {
 
 
 	/**
-	 * Test method for {@link txtshuffle.VectorConversions#swizzleToCompact(int[])}.
+	 * Test method for {@link txtshuffle.VectorConversions#ACTUALisvToCompact(int[])}.
 	 */
 	@Test
-	public final void testSwizzleToCompactAndBack() {
-		// final int[] swizzleVec = new int[] {1,2,0};
+	public final void testACTUALIsvToCompactAndBack() {
+		// final int[] ACTUALisv = new int[] {1,2,0};
 
 		// causes our int accumulator variables to overflow, seemingly
-//		final int[] swizzleVec = new int[]
+//		final int[] ACTUALisv = new int[]
 //				{10, 15, 23, 14, 12, 16, 28, 18, 24, 21, 20, 4, 29, 19, 9, 13, 17, 22, 8, 2, 3, 0, 27, 26, 6, 25, 7, 1, 5, 11};
 
-		final int[] swizzleVec = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1};
+		final int[] ACTUALisv = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1};
 
-		final int[] outputCompactArr = VectorConversions.swizzleToCompact(swizzleVec);
+		final int[] outputCompactArr = VectorConversions.ACTUALisvToCompact(ACTUALisv);
 
-		final int[] backToSwizzleFromCompact = VectorConversions.compactToACTUALIsv(outputCompactArr);
+		final int[] backToACTUALIsvFromCompact = VectorConversions.compactToACTUALIsv(outputCompactArr);
 
-		org.junit.Assert.assertArrayEquals(swizzleVec, backToSwizzleFromCompact);
+		org.junit.Assert.assertArrayEquals(ACTUALisv, backToACTUALIsvFromCompact);
 	}
 
 
 
 	//     /**
-	//      * Test method for {@link txtshuffle.VectorConversions#compactToSwizzle(int[])}.
+	//      * Test method for {@link txtshuffle.VectorConversions#compactToACTUALIsv(int[])}.
 	//      */
 	//     @Test
-	//     public final void testCompactToSwizzle() {
+	//     public final void testCompactToACTUALIsv() {
 	//             fail("Not yet implemented");
 	//     }
 

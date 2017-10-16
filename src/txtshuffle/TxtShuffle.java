@@ -113,7 +113,7 @@ public final class TxtShuffle {
 //		final int[] retrievedSortingACTUALIsv = TxtShuffle.findSortingACTUALIsv(data);
 //		final int[] retrievedUseful = TxtShuffle.invertACTUALIsv(retrievedSortingACTUALIsv);
 
-		final int[] retrievedUseful = TxtShuffle.findInverseOfSortingACTUALIsv(data);
+		final int[] retrievedUseful = TxtShuffle.findSortingACTUALSv(data);
 
 		final int[] retrievedCompact = VectorConversions.ACTUALisvToCompact(retrievedUseful);
 
@@ -244,7 +244,7 @@ public final class TxtShuffle {
  * @param inputData
  * @return
  */
-	public static int[] findInverseOfSortingACTUALIsv(final String[] inputData)
+	public static int[] findSortingACTUALSv(final String[] inputData)
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
