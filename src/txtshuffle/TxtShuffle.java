@@ -206,29 +206,34 @@ public final class TxtShuffle {
 		// This *isn't* the same thing as the ACTUALISV which transforms the data into its sorted order!
 		// It's actually the *inverse*. So we 'invert' the ACTUALISV, and return that.
 
-		final Integer[] ACTUALisvBoxed = new Integer[inputData.length];
+		final Integer[] boxedArr = new Integer[inputData.length];
 
-		for (int i = 0; i != ACTUALisvBoxed.length; ++i)
+		for (int i = 0; i != boxedArr.length; ++i)
 		{
-			ACTUALisvBoxed[i] = i;
+			boxedArr[i] = i;
 		}
 
 		final CustomIntegerComparator c = new CustomIntegerComparator(inputData);
 
-		java.util.Arrays.sort(ACTUALisvBoxed,c);
+		java.util.Arrays.sort(boxedArr,c);
 
+		// TODO we can sort an int[] without boxing, right?
+
+		// now, boxedArr holds the SV (*not* the ISV!)
 
 		// Laboriously unbox
 
-		final int[] unboxedArr = new int[ACTUALisvBoxed.length];
+		final int[] unboxedArr = new int[boxedArr.length];
 
 		for (int i = 0; i != unboxedArr.length; ++i)
 		{
-			unboxedArr[i] = ACTUALisvBoxed[i];
+			unboxedArr[i] = boxedArr[i];
 		}
 
+		// now unboxedArr holds the SV (*not* the ISV)
+
 		// Invert
-		final int[] ret = TxtShuffle.invertACTUALIsv(unboxedArr);
+		final int[] ret = TxtShuffle.invertACTUALIsvOrSv(unboxedArr);
 
 		return ret;
 	}
@@ -285,7 +290,7 @@ public final class TxtShuffle {
 	// TODO move to some other class?
 	// If we were using matrix-product to implement our vector swizzling,
 	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
-	public static int[] invertACTUALIsv(final int[] ACTUALisv)
+	public static int[] invertACTUALIsvOrSv(final int[] ACTUALisv)
 	{
 		assert( VectorConversions.isValidACTUALSvOrACTUALIsv(ACTUALisv) );
 
@@ -346,7 +351,7 @@ public final class TxtShuffle {
 			output[outputIndex] = valToAssign;
 		}
 
-		assert(java.util.Arrays.equals(applyACTUALIsvToStringArr(input,invertACTUALIsv(ACTUALsv)), output));
+		assert(java.util.Arrays.equals(applyACTUALIsvToStringArr(input,invertACTUALIsvOrSv(ACTUALsv)), output));
 
 		return output;
 	}

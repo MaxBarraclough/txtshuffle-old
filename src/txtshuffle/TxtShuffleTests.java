@@ -36,13 +36,13 @@ public final class TxtShuffleTests {
 
 		final int[] ACTUALisv = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // non involutory
 
-		final int[] ACTUALsv = TxtShuffle.invertACTUALIsv(ACTUALisv);
+		final int[] ACTUALsv = TxtShuffle.invertACTUALIsvOrSv(ACTUALisv);
 
 		final boolean shouldBeFalse = java.util.Arrays.equals(ACTUALisv, ACTUALsv);
 
 		org.junit.Assert.assertFalse(shouldBeFalse);
 
-		final int[] backAgain = TxtShuffle.invertACTUALIsv(ACTUALsv);
+		final int[] backAgain = TxtShuffle.invertACTUALIsvOrSv(ACTUALsv);
 
 		org.junit.Assert.assertArrayEquals(ACTUALisv, backAgain);
 
@@ -58,7 +58,6 @@ public final class TxtShuffleTests {
 
 		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(filesSortingACTUALIsv));
 
-		// // FORMEDNESS CHECKS
 		// // // TODO avoid the needless invert
 
 		final String[] strsSorted = strs.clone();
@@ -85,14 +84,13 @@ public final class TxtShuffleTests {
 
 		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
 
+		{
+			final int[] ACTUALsv = TxtShuffle.invertACTUALIsvOrSv(filesSortingACTUALIsv);
 
-
-		// // // ARGH something is wrong here! which one is wrong!?!?
-		final int[] ACTUALsv = TxtShuffle.invertACTUALIsv(filesSortingACTUALIsv);
-		final String[] strsUnsorted = strs.clone();
-		TxtShuffle.applyACTUALIsvToStringArr(strsUnsorted, ACTUALsv); // // // WHICH ONE IS WRONG???
-
-		org.junit.Assert.assertArrayEquals(strs, strsUnsorted);
+			// we apply the sv treating it as an ISV, thus reversing the sorting
+			final String[] scrambledBack = TxtShuffle.applyACTUALIsvToStringArr(strsAfterSortingOrder, ACTUALsv);
+			org.junit.Assert.assertArrayEquals(strs, scrambledBack);
+		}
 	}
 
 
@@ -103,7 +101,7 @@ public final class TxtShuffleTests {
 		final BigInteger secretNum_BI = BigInteger.valueOf(secretNum);
 		// 40319; // 40320 is fact(8) and is the lowest too-high integer
 
-		String[] encoded = TxtShuffle.encodeSmallNumberIntoData("example1.txt", secretNum);
+		final String[] encoded = TxtShuffle.encodeSmallNumberIntoData("example1.txt", secretNum);
 
 		final BigInteger retrievedNum = TxtShuffle.retrieveNumberFromData(encoded);
 
