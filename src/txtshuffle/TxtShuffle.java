@@ -218,8 +218,6 @@ public final class TxtShuffle {
 		java.util.Arrays.sort(boxedArr,c); // now, boxedArr holds the SV (*not* the ISV!)
 		// No, we can't sort an int[] using a custom comparator, without boxing.
 		// Boxing could be avoided using an external library, following https://stackoverflow.com/a/46165625
-		// or rephrased (eliminating the extra array but not the Integer instances)
-		// following https://stackoverflow.com/a/33065575
 
 		// Laboriously unbox
 
