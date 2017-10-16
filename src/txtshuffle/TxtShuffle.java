@@ -14,7 +14,7 @@ public final class TxtShuffle {
 	// TODO move code away from arrays and toward.... something else... some interface?
 
 	// TODO if we care more about fast decode than fast encode,
-	// we should do the inverseSwizzleVector on the encode side, not on the decode side
+	// we should do the vector inversion on the encode side, not on the decode side
 
 
 	public final static class NumberTooGreatException extends Exception
