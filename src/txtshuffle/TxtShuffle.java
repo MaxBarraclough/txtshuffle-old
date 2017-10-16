@@ -96,7 +96,7 @@ public final class TxtShuffle {
 
 		final int[] useful = VectorConversions.compactToACTUALIsv(compact);
 
-		// final int[] swizzleVectorForFilesOrder = TxtShuffle.findSortingSwizzleVector(strs);
+		// final int[] ACTUALisvForFilesOrder = TxtShuffle.findSortingACTUALIsv(strs);
 		// No! Not needed for the encode direction, only for decode.
 
 		java.util.Arrays.sort(strs); // Mutates existing array
@@ -110,8 +110,8 @@ public final class TxtShuffle {
 
 	public static BigInteger retrieveNumberFromData(final String[] data)
 	{
-//		final int[] retrievedSortingSwizzleVec = TxtShuffle.findSortingSwizzleVector(data);
-//		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingSwizzleVec);
+//		final int[] retrievedSortingACTUALIsv = TxtShuffle.findSortingACTUALIsv(data);
+//		final int[] retrievedUseful = TxtShuffle.invertSwizzleVector(retrievedSortingACTUALIsv);
 
 		final int[] retrievedUseful = TxtShuffle.findInverseOfSortingSwizzleVec(data);
 
@@ -199,7 +199,7 @@ public final class TxtShuffle {
  * @param inputData
  * @return
  */
-	public static int[] findSortingSwizzleVector_AVOID(final String[] inputData)
+	public static int[] findSortingACTUALIsv_AVOID(final String[] inputData)
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
