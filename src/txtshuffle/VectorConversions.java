@@ -43,7 +43,7 @@ public final class VectorConversions {
 	 * @param vec
 	 * @return
 	 */
-	public static boolean isValidSwizzleVector(final int[] vec)
+	public static boolean isValidACTUALIsv(final int[] vec)
 	{
 		boolean ret = true;
 
@@ -270,7 +270,7 @@ public final class VectorConversions {
 
 	public static int[] swizzleToCompact(final int[] swizzleVec)
 	{
-		assert(isValidSwizzleVector(swizzleVec)); // TODO should conditionally throw?
+		assert(isValidACTUALIsv(swizzleVec)); // TODO should conditionally throw?
 
 		final int sz = swizzleVec.length;
 
@@ -322,7 +322,7 @@ public final class VectorConversions {
 
 	public static int[] swizzleToCompact_Fast(final int[] swizzleVec)
 	{
-		assert(isValidSwizzleVector(swizzleVec)); // TODO should conditionally throw?
+		assert(isValidACTUALIsv(swizzleVec)); // TODO should conditionally throw?
 
 		final int sz = swizzleVec.length;
 
@@ -361,7 +361,7 @@ public final class VectorConversions {
 
 
 
-	public static int[] compactToSwizzle(int[] compactVector)
+	public static int[] compactToACTUALIsv(int[] compactVector)
 	{
 		assert(isValidCompactVector(compactVector));
 
@@ -400,7 +400,7 @@ public final class VectorConversions {
 			outArr[i] = outputVector.get(i);
 		}
 
-		assert(isValidSwizzleVector(outArr));
+		assert(isValidACTUALIsv(outArr));
 
 		return outArr;
 	}

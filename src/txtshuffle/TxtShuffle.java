@@ -94,7 +94,7 @@ public final class TxtShuffle {
 
 		//////////////////////////////////////////////////////////////
 
-		final int[] useful = VectorConversions.compactToSwizzle(compact);
+		final int[] useful = VectorConversions.compactToACTUALIsv(compact);
 
 		// final int[] swizzleVectorForFilesOrder = TxtShuffle.findSortingSwizzleVector(strs);
 		// No! Not needed for the encode direction, only for decode.
@@ -228,7 +228,7 @@ public final class TxtShuffle {
 		}
 
 		// Invert
-		final int[] ret = TxtShuffle.invertSwizzleVector(unboxedArr);
+		final int[] ret = TxtShuffle.invertACTUALIsv(unboxedArr);
 
 		return ret;
 	}
@@ -285,19 +285,19 @@ public final class TxtShuffle {
 	// TODO move to some other class?
 	// If we were using matrix-product to implement our vector swizzling,
 	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
-	public static int[] invertSwizzleVector(final int[] swizzleVec)
+	public static int[] invertACTUALIsv(final int[] ACTUALisv)
 	{
-		assert( VectorConversions.isValidSwizzleVector(swizzleVec) );
+		assert( VectorConversions.isValidACTUALIsv(ACTUALisv) );
 
-		final int[] reversed = new int[swizzleVec.length];
+		final int[] ACTUALsv = new int[ACTUALisv.length];
 
-		for (int i = 0; i != swizzleVec.length; ++i)
+		for (int i = 0; i != ACTUALisv.length; ++i)
 		{
-			final int index = swizzleVec[i];
-			reversed[index] = i;
+			final int index = ACTUALisv[i];
+			ACTUALsv[index] = i;
 		}
 
-		return reversed;
+		return ACTUALsv;
 	}
 
 
@@ -310,7 +310,7 @@ public final class TxtShuffle {
 	public static String[] applySwizzleVectorToStringArr(final String[] input, final int[] swizzleVec)
 	{
 		assert(input.length == swizzleVec.length); // explodes if either is null
-		assert(VectorConversions.isValidSwizzleVector(swizzleVec));
+		assert(VectorConversions.isValidACTUALIsv(swizzleVec));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
@@ -330,7 +330,7 @@ public final class TxtShuffle {
 	public static String[] applyInvSwizzleVectorToStringArr(final String[] input, final int[] invSwizzleVec)
 	{
 		assert(input.length == invSwizzleVec.length); // explodes if either is null
-		assert(VectorConversions.isValidSwizzleVector(invSwizzleVec));
+		assert(VectorConversions.isValidACTUALIsv(invSwizzleVec));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
@@ -349,7 +349,7 @@ public final class TxtShuffle {
 			output[desiredIndex] = valToAssign;
 		}
 
-		assert(java.util.Arrays.equals(applySwizzleVectorToStringArr(input,invertSwizzleVector(invSwizzleVec)), output));
+		assert(java.util.Arrays.equals(applySwizzleVectorToStringArr(input,invertACTUALIsv(invSwizzleVec)), output));
 
 		return output;
 	}

@@ -36,13 +36,13 @@ public final class TxtShuffleTests {
 
 		final int[] swizzleVec = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // non involutory
 
-		final int[] invertedSwizzleVec = TxtShuffle.invertSwizzleVector(swizzleVec);
+		final int[] invertedSwizzleVec = TxtShuffle.invertACTUALIsv(swizzleVec);
 
 		final boolean shouldBeFalse = java.util.Arrays.equals(swizzleVec, invertedSwizzleVec);
 
 		org.junit.Assert.assertFalse(shouldBeFalse);
 
-		final int[] backAgain = TxtShuffle.invertSwizzleVector(invertedSwizzleVec);
+		final int[] backAgain = TxtShuffle.invertACTUALIsv(invertedSwizzleVec);
 
 		org.junit.Assert.assertArrayEquals(swizzleVec, backAgain);
 
@@ -79,7 +79,7 @@ public final class TxtShuffleTests {
 
 		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
 
-		final int[] invSwizzleVec = TxtShuffle.invertSwizzleVector(filesSortingSwizzleVec);
+		final int[] invSwizzleVec = TxtShuffle.invertACTUALIsv(filesSortingSwizzleVec);
 		final String[] strsUnsorted = strs.clone();
 		TxtShuffle.applySwizzleVectorToStringArr(strsUnsorted, invSwizzleVec);
 
@@ -134,7 +134,7 @@ public final class TxtShuffleTests {
 
 		//////////////////////////////////////////////////////////////////////
 
-		final int[] useful = VectorConversions.compactToSwizzle(compact);
+		final int[] useful = VectorConversions.compactToACTUALIsv(compact);
 
 		// final int[] swizzleVecForFilesOrder = TxtShuffle.findSortingSwizzleVector(strs); // NO! not needed for the encode direction, only for decode!
 

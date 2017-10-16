@@ -53,10 +53,10 @@ public final class VectorConversionsTests {
 	// TODO IMPLEMENT
 
 	/**
-	 * Test method for {@link txtshuffle.VectorConversions#isValidSwizzleVector(int[])}.
+	 * Test method for {@link txtshuffle.VectorConversions#isValidACTUALIsv(int[])}.
 	 */
 	@Test
-	public final void testIsValidSwizzleVector()
+	public final void testIsValidACTUALIsv()
 	{
 		final int[] valid1 = new int[] {0,1,2,3,4};
 		final int[] valid2 = new int[] {5,2,4,1,0,3};
@@ -67,14 +67,14 @@ public final class VectorConversionsTests {
 		final int[] invalid2 = new int[] {0,1,3};
 		final int[] invalid3 = new int[] {0,1,-1};
 
-		org.junit.Assert.assertTrue(VectorConversions.isValidSwizzleVector(valid1));
-		org.junit.Assert.assertTrue(VectorConversions.isValidSwizzleVector(valid2));
-		org.junit.Assert.assertTrue(VectorConversions.isValidSwizzleVector(valid3));
-		org.junit.Assert.assertTrue(VectorConversions.isValidSwizzleVector(valid4));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid1));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid2));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid3));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid4));
 
-		org.junit.Assert.assertFalse(VectorConversions.isValidSwizzleVector(invalid1));
-		org.junit.Assert.assertFalse(VectorConversions.isValidSwizzleVector(invalid2));
-		org.junit.Assert.assertFalse(VectorConversions.isValidSwizzleVector(invalid3));
+		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALIsv(invalid1));
+		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALIsv(invalid2));
+		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALIsv(invalid3));
 	}
 
 
@@ -140,13 +140,13 @@ public final class VectorConversionsTests {
 		///////////////////////////////////////////////////////////
 
 
-		final int[] swizzleVecFromCompact = VectorConversions.compactToSwizzle(compactFromInt);
+		final int[] ACTUALisvFromCompact = VectorConversions.compactToACTUALIsv(compactFromInt);
 
-		org.junit.Assert.assertArrayEquals(expectedOutputArr, swizzleVecFromCompact);
+		org.junit.Assert.assertArrayEquals(expectedOutputArr, ACTUALisvFromCompact);
 
-		final int[] backToCompactFromSwizzle = VectorConversions.swizzleToCompact(swizzleVecFromCompact);
+		final int[] backToCompactFromACTUALIsv = VectorConversions.swizzleToCompact(ACTUALisvFromCompact);
 
-		final BigInteger backToInt = VectorConversions.compactVectorToInt(backToCompactFromSwizzle);
+		final BigInteger backToInt = VectorConversions.compactVectorToInt(backToCompactFromACTUALIsv);
 
 		org.junit.Assert.assertEquals(secretNum, backToInt);
 	}
@@ -179,7 +179,7 @@ public final class VectorConversionsTests {
 		///////////////////////////////////////////////////////////
 
 
-		final int[] swizzleVecFromCompact = VectorConversions.compactToSwizzle(compactFromInt);
+		final int[] swizzleVecFromCompact = VectorConversions.compactToACTUALIsv(compactFromInt);
 
 		final int[] backToCompactFromSwizzle
 		  = VectorConversions.swizzleToCompact(swizzleVecFromCompact);
@@ -209,7 +209,7 @@ public final class VectorConversionsTests {
 
 		final int[] outputCompactArr = VectorConversions.swizzleToCompact(swizzleVec);
 
-		final int[] backToSwizzleFromCompact = VectorConversions.compactToSwizzle(outputCompactArr);
+		final int[] backToSwizzleFromCompact = VectorConversions.compactToACTUALIsv(outputCompactArr);
 
 		org.junit.Assert.assertArrayEquals(swizzleVec, backToSwizzleFromCompact);
 	}
