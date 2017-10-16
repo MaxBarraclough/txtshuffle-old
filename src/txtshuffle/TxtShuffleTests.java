@@ -55,6 +55,10 @@ public final class TxtShuffleTests {
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
 		final int[] filesSortingACTUALIsv = TxtShuffle.findSortingACTUALIsv_AVOID(strs);
+
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(filesSortingACTUALIsv));
+
+		// // FORMEDNESS CHECKS
 		// // // TODO avoid the needless invert
 
 		final String[] strsSorted = strs.clone();
@@ -70,6 +74,8 @@ public final class TxtShuffleTests {
 
 		{
 			final int[] filesSortingACTUALSv = TxtShuffle.findSortingACTUALSv(strs);
+
+			org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(filesSortingACTUALSv));
 
 			final String[] strsAfterSortingOrder_ =
 					  TxtShuffle.applyACTUALSvToStringArr(strs, filesSortingACTUALSv);
