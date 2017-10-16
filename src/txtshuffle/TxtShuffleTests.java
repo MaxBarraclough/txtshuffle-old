@@ -66,13 +66,13 @@ public final class TxtShuffleTests {
 		// // // TODO try applyInvSwizzleVectorToStringArr
 
 		final String[] strsAfterSortingOrder =
-		  TxtShuffle.applySwizzleVectorToStringArr(strs, filesSortingSwizzleVec);
+		  TxtShuffle.applyACTUALIsvToStringArr(strs, filesSortingSwizzleVec);
 
 		{
 			final int[] filesSortingInvSwizzleVec = TxtShuffle.findInverseOfSortingSwizzleVec(strs);
 
 			final String[] strsAfterSortingOrder_ =
-					  TxtShuffle.applyInvSwizzleVectorToStringArr(strs, filesSortingInvSwizzleVec);
+					  TxtShuffle.applyACTUALSvToStringArr(strs, filesSortingInvSwizzleVec);
 
 			org.junit.Assert.assertArrayEquals(strsAfterSortingOrder, strsAfterSortingOrder_);
 		}
@@ -81,7 +81,7 @@ public final class TxtShuffleTests {
 
 		final int[] invSwizzleVec = TxtShuffle.invertACTUALIsv(filesSortingSwizzleVec);
 		final String[] strsUnsorted = strs.clone();
-		TxtShuffle.applySwizzleVectorToStringArr(strsUnsorted, invSwizzleVec);
+		TxtShuffle.applyACTUALIsvToStringArr(strsUnsorted, invSwizzleVec);
 
 		org.junit.Assert.assertArrayEquals(strs, strsUnsorted);
 	}
@@ -141,7 +141,7 @@ public final class TxtShuffleTests {
 		final String[] strsSorted = strs.clone();
 		java.util.Arrays.sort(strsSorted);
 
-		final String[] strsEncodingNum = TxtShuffle.applySwizzleVectorToStringArr(strsSorted, useful);
+		final String[] strsEncodingNum = TxtShuffle.applyACTUALIsvToStringArr(strsSorted, useful);
 
 		{
 			final boolean shouldBeFalse = java.util.Arrays.equals(strs, strsEncodingNum);

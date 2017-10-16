@@ -101,7 +101,7 @@ public final class TxtShuffle {
 
 		java.util.Arrays.sort(strs); // Mutates existing array
 
-		final String[] strsEncodingNum = TxtShuffle.applySwizzleVectorToStringArr(strs, useful);
+		final String[] strsEncodingNum = TxtShuffle.applyACTUALIsvToStringArr(strs, useful);
 
 		return strsEncodingNum;
 	}
@@ -307,17 +307,17 @@ public final class TxtShuffle {
 	 * @param input
 	 * @return
 	 */
-	public static String[] applySwizzleVectorToStringArr(final String[] input, final int[] swizzleVec)
+	public static String[] applyACTUALIsvToStringArr(final String[] input, final int[] ACTUALisv)
 	{
-		assert(input.length == swizzleVec.length); // explodes if either is null
-		assert(VectorConversions.isValidACTUALIsv(swizzleVec));
+		assert(input.length == ACTUALisv.length); // explodes if either is null
+		assert(VectorConversions.isValidACTUALIsv(ACTUALisv));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
 
 		for (int i = 0; i != input.length; ++i)
 		{
-			final int desiredIndex = swizzleVec[i];
+			final int desiredIndex = ACTUALisv[i];
 			output[desiredIndex] = input[i];
 		}
 
@@ -327,29 +327,25 @@ public final class TxtShuffle {
 
 
 
-	public static String[] applyInvSwizzleVectorToStringArr(final String[] input, final int[] invSwizzleVec)
+	public static String[] applyACTUALSvToStringArr(final String[] input, final int[] ACTUALsv)
 	{
-		assert(input.length == invSwizzleVec.length); // explodes if either is null
-		assert(VectorConversions.isValidACTUALIsv(invSwizzleVec));
+		assert(input.length == ACTUALsv.length); // explodes if either is null
+		assert(VectorConversions.isValidACTUALIsv(ACTUALsv));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
 
 		for (int i = 0; i != input.length; ++i)
 		{
-			// final int desiredIndex = swizzleVec[i];
-			// String valToAssign = input[i];
-			// output[desiredIndex] = valToAssign;
-
-			// With a forward swizzle vector, vec[x] == y means do out[y] = input[x]
-			// with an inv. swizzle vect,     vec[x] == y means do out[x] = input[y]
+			// With an ISV, vec[x] == y means do out[y] = input[x]
+			// with a sv,   vec[x] == y means do out[x] = input[y]
 
 			final int desiredIndex = i;
-			String valToAssign = input[invSwizzleVec[i]];
+			String valToAssign = input[ACTUALsv[i]];
 			output[desiredIndex] = valToAssign;
 		}
 
-		assert(java.util.Arrays.equals(applySwizzleVectorToStringArr(input,invertACTUALIsv(invSwizzleVec)), output));
+		assert(java.util.Arrays.equals(applyACTUALIsvToStringArr(input,invertACTUALIsv(ACTUALsv)), output));
 
 		return output;
 	}
