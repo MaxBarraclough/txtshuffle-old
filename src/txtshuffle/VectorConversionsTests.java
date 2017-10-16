@@ -53,7 +53,7 @@ public final class VectorConversionsTests {
 	// TODO IMPLEMENT
 
 	/**
-	 * Test method for {@link txtshuffle.VectorConversions#isValidACTUALIsv(int[])}.
+	 * Test method for {@link txtshuffle.VectorConversions#isValidACTUALSvOrACTUALIsv(int[])}.
 	 */
 	@Test
 	public final void testIsValidACTUALIsv()
@@ -67,14 +67,14 @@ public final class VectorConversionsTests {
 		final int[] invalid2 = new int[] {0,1,3};
 		final int[] invalid3 = new int[] {0,1,-1};
 
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid1));
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid2));
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid3));
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(valid4));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid1));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid2));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid3));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid4));
 
-		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALIsv(invalid1));
-		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALIsv(invalid2));
-		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALIsv(invalid3));
+		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALSvOrACTUALIsv(invalid1));
+		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALSvOrACTUALIsv(invalid2));
+		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALSvOrACTUALIsv(invalid3));
 	}
 
 

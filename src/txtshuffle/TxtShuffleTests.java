@@ -56,7 +56,7 @@ public final class TxtShuffleTests {
 
 		final int[] filesSortingACTUALIsv = TxtShuffle.findSortingACTUALIsv_AVOID(strs);
 
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(filesSortingACTUALIsv));
+		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(filesSortingACTUALIsv));
 
 		// // FORMEDNESS CHECKS
 		// // // TODO avoid the needless invert
@@ -75,7 +75,7 @@ public final class TxtShuffleTests {
 		{
 			final int[] filesSortingACTUALSv = TxtShuffle.findSortingACTUALSv(strs);
 
-			org.junit.Assert.assertTrue(VectorConversions.isValidACTUALIsv(filesSortingACTUALSv));
+			org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(filesSortingACTUALSv));
 
 			final String[] strsAfterSortingOrder_ =
 					  TxtShuffle.applyACTUALSvToStringArr(strs, filesSortingACTUALSv);

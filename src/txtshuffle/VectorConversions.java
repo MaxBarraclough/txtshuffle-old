@@ -43,7 +43,7 @@ public final class VectorConversions {
 	 * @param vec
 	 * @return
 	 */
-	public static boolean isValidACTUALIsv(final int[] vec)
+	public static boolean isValidACTUALSvOrACTUALIsv(final int[] vec)
 	{
 		boolean ret = true;
 
@@ -270,7 +270,7 @@ public final class VectorConversions {
 
 	public static int[] ACTUALisvToCompact(final int[] ACTUALisv)
 	{
-		assert(isValidACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
+		assert(isValidACTUALSvOrACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
 
 		final int sz = ACTUALisv.length;
 
@@ -322,7 +322,7 @@ public final class VectorConversions {
 
 	public static int[] ACTUALisvToCompact_Fast(final int[] ACTUALisv)
 	{
-		assert(isValidACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
+		assert(isValidACTUALSvOrACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
 
 		final int sz = ACTUALisv.length;
 
@@ -400,7 +400,7 @@ public final class VectorConversions {
 			outArr[i] = outputVector.get(i);
 		}
 
-		assert(isValidACTUALIsv(outArr));
+		assert(isValidACTUALSvOrACTUALIsv(outArr));
 
 		return outArr;
 	}

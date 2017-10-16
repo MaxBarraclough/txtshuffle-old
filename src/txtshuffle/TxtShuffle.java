@@ -287,7 +287,7 @@ public final class TxtShuffle {
 	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
 	public static int[] invertACTUALIsv(final int[] ACTUALisv)
 	{
-		assert( VectorConversions.isValidACTUALIsv(ACTUALisv) );
+		assert( VectorConversions.isValidACTUALSvOrACTUALIsv(ACTUALisv) );
 
 		final int[] ACTUALsv = new int[ACTUALisv.length];
 
@@ -310,7 +310,7 @@ public final class TxtShuffle {
 	public static String[] applyACTUALIsvToStringArr(final String[] input, final int[] ACTUALisv)
 	{
 		assert(input.length == ACTUALisv.length); // explodes if either is null
-		assert(VectorConversions.isValidACTUALIsv(ACTUALisv));
+		assert(VectorConversions.isValidACTUALSvOrACTUALIsv(ACTUALisv));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
@@ -330,7 +330,7 @@ public final class TxtShuffle {
 	public static String[] applyACTUALSvToStringArr(final String[] input, final int[] ACTUALsv)
 	{
 		assert(input.length == ACTUALsv.length); // explodes if either is null
-		assert(VectorConversions.isValidACTUALIsv(ACTUALsv));
+		assert(VectorConversions.isValidACTUALSvOrACTUALIsv(ACTUALsv));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
