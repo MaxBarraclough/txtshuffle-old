@@ -340,9 +340,10 @@ public final class TxtShuffle {
 			// With an ISV, vec[x] == y means do out[y] = input[x]
 			// with a sv,   vec[x] == y means do out[x] = input[y]
 
-			final int desiredIndex = i;
-			String valToAssign = input[ACTUALsv[i]];
-			output[desiredIndex] = valToAssign;
+			final int inputIndex = ACTUALsv[i];
+			final String valToAssign = input[inputIndex];
+			final int outputIndex = i;
+			output[outputIndex] = valToAssign;
 		}
 
 		assert(java.util.Arrays.equals(applyACTUALIsvToStringArr(input,invertACTUALIsv(ACTUALsv)), output));
