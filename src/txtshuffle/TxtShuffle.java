@@ -67,9 +67,6 @@ public final class TxtShuffle {
 	// TODO param name consistency
 
 
-
-	// TODO PRIORITY move this over to BigInteger
-
 	public static String[] encodeSmallNumberIntoData(final String filePath, final int secretNum)
 			throws IOException, NumberTooGreatException
 	{
@@ -120,6 +117,19 @@ public final class TxtShuffle {
 		// This approach uses no inversions
 		final int[] retrievedSortingSv = TxtShuffle.findSortingSv(data);
 
+
+		//////////////////////////////////////// we are indeed dealing with an SV and not an ISV
+if (false) {
+		String[] dataCopy = data.clone();
+		java.util.Arrays.sort(dataCopy);
+
+		String[] dataCopy2 = data.clone();
+		String[] out = TxtShuffle.applySvToStringArr(dataCopy2, retrievedSortingSv);
+
+		boolean b = java.util.Arrays.equals(out, dataCopy);
+}
+
+
 		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedSortingSv);
 
 		final BigInteger retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
@@ -156,7 +166,8 @@ public final class TxtShuffle {
 
 	}
 
-	// All this ISV business is analogous to matrix product, but that wouldn't buy us anything in implementation
+	// All this ISV business is analogous to matrix product with a permutation matrix,
+	// but that wouldn't buy us anything in implementation
 
 
 
@@ -348,8 +359,7 @@ public final class TxtShuffle {
 
 			final int inputIndex = sv[i];
 			final String valToAssign = input[inputIndex];
-			final int outputIndex = i;
-			output[outputIndex] = valToAssign;
+			output[i] = valToAssign;
 		}
 
 		assert(java.util.Arrays.equals(applyIsvToStringArr(input,invertIsvOrSv(sv)), output));
