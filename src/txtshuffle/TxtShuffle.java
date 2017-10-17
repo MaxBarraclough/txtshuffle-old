@@ -114,6 +114,9 @@ public final class TxtShuffle {
 //		final int[] retrievedSortingSv = TxtShuffle.invertIsv(retrievedSortingIsv); // not needed
 
 
+
+		// // // TODO FIX THE BAD NAMING? SOMETHING IS CLEARLY WRONG HERE!!
+
 		// This approach uses no inversions
 		final int[] retrievedSortingSv = TxtShuffle.findSortingSv(data);
 
@@ -205,8 +208,8 @@ public final class TxtShuffle {
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
-		// This *isn't* the same thing as the ISV which transforms the data into its sorted order!
-		// It's ly the *inverse*. So we 'invert' the ISV, and return that.
+		// This gives us the SV.
+		// In this method then, we subsequently inverse that vector, before returning.
 
 		final Integer[] boxedArr = new Integer[inputData.length];
 
@@ -244,8 +247,7 @@ public final class TxtShuffle {
 
 
 /**
- * AVOID this method - we want to avoid doing that invert!
- * Find the ISV which transforms the original data into its sorted order
+ * Find the SV which transforms the original data into its sorted order
  * @param inputData
  * @return
  */
@@ -253,8 +255,7 @@ public final class TxtShuffle {
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
-		// This *isn't* the same thing as the ISV which transforms the data into its sorted order!
-		// It's ly the *inverse*. Fortunately, this is just as useful.
+		// This gives us the SV.
 
 		final Integer[] isvBoxed = new Integer[inputData.length];
 
