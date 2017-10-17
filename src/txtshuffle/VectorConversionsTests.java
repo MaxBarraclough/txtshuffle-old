@@ -53,10 +53,10 @@ public final class VectorConversionsTests {
 	// TODO IMPLEMENT
 
 	/**
-	 * Test method for {@link txtshuffle.VectorConversions#isValidACTUALSvOrACTUALIsv(int[])}.
+	 * Test method for {@link txtshuffle.VectorConversions#isValidSvOrIsv(int[])}.
 	 */
 	@Test
-	public final void testIsValidACTUALIsv()
+	public final void testIsValidIsv()
 	{
 		final int[] valid1 = new int[] {0,1,2,3,4};
 		final int[] valid2 = new int[] {5,2,4,1,0,3};
@@ -67,14 +67,14 @@ public final class VectorConversionsTests {
 		final int[] invalid2 = new int[] {0,1,3};
 		final int[] invalid3 = new int[] {0,1,-1};
 
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid1));
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid2));
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid3));
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(valid4));
+		org.junit.Assert.assertTrue(VectorConversions.isValidSvOrIsv(valid1));
+		org.junit.Assert.assertTrue(VectorConversions.isValidSvOrIsv(valid2));
+		org.junit.Assert.assertTrue(VectorConversions.isValidSvOrIsv(valid3));
+		org.junit.Assert.assertTrue(VectorConversions.isValidSvOrIsv(valid4));
 
-		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALSvOrACTUALIsv(invalid1));
-		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALSvOrACTUALIsv(invalid2));
-		org.junit.Assert.assertFalse(VectorConversions.isValidACTUALSvOrACTUALIsv(invalid3));
+		org.junit.Assert.assertFalse(VectorConversions.isValidSvOrIsv(invalid1));
+		org.junit.Assert.assertFalse(VectorConversions.isValidSvOrIsv(invalid2));
+		org.junit.Assert.assertFalse(VectorConversions.isValidSvOrIsv(invalid3));
 	}
 
 
@@ -140,13 +140,13 @@ public final class VectorConversionsTests {
 		///////////////////////////////////////////////////////////
 
 
-		final int[] ACTUALisvFromCompact = VectorConversions.compactToACTUALIsv(compactFromInt);
+		final int[] isvFromCompact = VectorConversions.compactToIsv(compactFromInt);
 
-		org.junit.Assert.assertArrayEquals(expectedOutputArr, ACTUALisvFromCompact);
+		org.junit.Assert.assertArrayEquals(expectedOutputArr, isvFromCompact);
 
-		final int[] backToCompactFromACTUALIsv = VectorConversions.ACTUALisvToCompact(ACTUALisvFromCompact);
+		final int[] backToCompactFromIsv = VectorConversions.isvToCompact(isvFromCompact);
 
-		final BigInteger backToInt = VectorConversions.compactVectorToInt(backToCompactFromACTUALIsv);
+		final BigInteger backToInt = VectorConversions.compactVectorToInt(backToCompactFromIsv);
 
 		org.junit.Assert.assertEquals(secretNum, backToInt);
 	}
@@ -179,13 +179,13 @@ public final class VectorConversionsTests {
 		///////////////////////////////////////////////////////////
 
 
-		final int[] ACTUALisvFromCompact = VectorConversions.compactToACTUALIsv(compactFromInt);
+		final int[] isvFromCompact = VectorConversions.compactToIsv(compactFromInt);
 
-		final int[] backToCompactFromACTUALIsv
-		  = VectorConversions.ACTUALisvToCompact(ACTUALisvFromCompact);
+		final int[] backToCompactFromIsv
+		  = VectorConversions.isvToCompact(isvFromCompact);
 
 		final BigInteger backToInt
-		  = VectorConversions.compactVectorToInt(backToCompactFromACTUALIsv);
+		  = VectorConversions.compactVectorToInt(backToCompactFromIsv);
 
 		org.junit.Assert.assertEquals(theBigInteger, backToInt);
 	}
@@ -195,32 +195,32 @@ public final class VectorConversionsTests {
 
 
 	/**
-	 * Test method for {@link txtshuffle.VectorConversions#ACTUALisvToCompact(int[])}.
+	 * Test method for {@link txtshuffle.VectorConversions#isvToCompact(int[])}.
 	 */
 	@Test
-	public final void testACTUALIsvToCompactAndBack() {
-		// final int[] ACTUALisv = new int[] {1,2,0};
+	public final void testIsvToCompactAndBack() {
+		// final int[] isv = new int[] {1,2,0};
 
 		// causes our int accumulator variables to overflow, seemingly
-//		final int[] ACTUALisv = new int[]
+//		final int[] isv = new int[]
 //				{10, 15, 23, 14, 12, 16, 28, 18, 24, 21, 20, 4, 29, 19, 9, 13, 17, 22, 8, 2, 3, 0, 27, 26, 6, 25, 7, 1, 5, 11};
 
-		final int[] ACTUALisv = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1};
+		final int[] isv = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1};
 
-		final int[] outputCompactArr = VectorConversions.ACTUALisvToCompact(ACTUALisv);
+		final int[] outputCompactArr = VectorConversions.isvToCompact(isv);
 
-		final int[] backToACTUALIsvFromCompact = VectorConversions.compactToACTUALIsv(outputCompactArr);
+		final int[] backToIsvFromCompact = VectorConversions.compactToIsv(outputCompactArr);
 
-		org.junit.Assert.assertArrayEquals(ACTUALisv, backToACTUALIsvFromCompact);
+		org.junit.Assert.assertArrayEquals(isv, backToIsvFromCompact);
 	}
 
 
 
 	//     /**
-	//      * Test method for {@link txtshuffle.VectorConversions#compactToACTUALIsv(int[])}.
+	//      * Test method for {@link txtshuffle.VectorConversions#compactToIsv(int[])}.
 	//      */
 	//     @Test
-	//     public final void testCompactToACTUALIsv() {
+	//     public final void testCompactToIsv() {
 	//             fail("Not yet implemented");
 	//     }
 

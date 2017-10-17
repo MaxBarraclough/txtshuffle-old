@@ -20,10 +20,10 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 // Or is the mult. not so bad, as the smaller of the two operands is bounded by n (the row count)?
 
 
-// TODO composition of ACTUALISVs. Is this preferable to repeated transformations? Probably about the same...
+// TODO composition of ISVs. Is this preferable to repeated transformations? Probably about the same...
 
 
-// TODO assert well-formed ACTUALISVs. No repetition, no out-of-bounds values.
+// TODO assert well-formed ISVs. No repetition, no out-of-bounds values.
 
 // TODO eliminate pointless intermediate ArrayLists and boxing
 
@@ -43,7 +43,7 @@ public final class VectorConversions {
 	 * @param vec
 	 * @return
 	 */
-	public static boolean isValidACTUALSvOrACTUALIsv(final int[] vec)
+	public static boolean isValidSvOrIsv(final int[] vec)
 	{
 		boolean ret = true;
 
@@ -268,11 +268,11 @@ public final class VectorConversions {
 
 	// TODO avoid linear-time horrors in this one, using AVL tree list
 
-	public static int[] ACTUALisvToCompact(final int[] ACTUALisv)
+	public static int[] isvToCompact(final int[] isv)
 	{
-		assert(isValidACTUALSvOrACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
+		assert(isValidSvOrIsv(isv)); // TODO should conditionally throw?
 
-		final int sz = ACTUALisv.length;
+		final int sz = isv.length;
 
 		// TODO this is a disastrous choice of data structure!
 		// An 'AVL tree list' would make more sense.
@@ -287,7 +287,7 @@ public final class VectorConversions {
 
 		for (int i = 0; i != sz; ++i)
 		{
-			final int searchingFor = ACTUALisv[i];
+			final int searchingFor = isv[i];
 			final int indexIntoWorkingVec = workingVec.indexOf(searchingFor);
 
 			assert(indexIntoWorkingVec >= 0);
@@ -312,7 +312,7 @@ public final class VectorConversions {
 
 		assert(java.util.Arrays.equals(
 				outArr,
-				ACTUALisvToCompact_Fast(ACTUALisv)
+				isvToCompact_Fast(isv)
 		       ));
 
 
@@ -320,11 +320,11 @@ public final class VectorConversions {
 	}
 
 
-	public static int[] ACTUALisvToCompact_Fast(final int[] ACTUALisv)
+	public static int[] isvToCompact_Fast(final int[] isv)
 	{
-		assert(isValidACTUALSvOrACTUALIsv(ACTUALisv)); // TODO should conditionally throw?
+		assert(isValidSvOrIsv(isv)); // TODO should conditionally throw?
 
-		final int sz = ACTUALisv.length;
+		final int sz = isv.length;
 
 		// TODO this is a disastrous choice of data structure!
 		// An 'AVL tree list' would make more sense.
@@ -339,7 +339,7 @@ public final class VectorConversions {
 
 		for (int i = 0; i != sz; ++i)
 		{
-			final int searchingFor = ACTUALisv[i];
+			final int searchingFor = isv[i];
 			final int indexIntoWorkingVec = workingVec.indexOf(searchingFor);
 
 			assert(indexIntoWorkingVec >= 0);
@@ -361,7 +361,7 @@ public final class VectorConversions {
 
 
 
-	public static int[] compactToACTUALIsv(int[] compactVector)
+	public static int[] compactToIsv(int[] compactVector)
 	{
 		assert(isValidCompactVector(compactVector));
 
@@ -400,7 +400,7 @@ public final class VectorConversions {
 			outArr[i] = outputVector.get(i);
 		}
 
-		assert(isValidACTUALSvOrACTUALIsv(outArr));
+		assert(isValidSvOrIsv(outArr));
 
 		return outArr;
 	}

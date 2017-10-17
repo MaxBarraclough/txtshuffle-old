@@ -94,14 +94,14 @@ public final class TxtShuffle {
 
 		//////////////////////////////////////////////////////////////
 
-		final int[] useful = VectorConversions.compactToACTUALIsv(compact);
+		final int[] useful = VectorConversions.compactToIsv(compact);
 
-		// final int[] ACTUALisvForFilesOrder = TxtShuffle.findSortingACTUALIsv(strs);
+		// final int[] isvForFilesOrder = TxtShuffle.findSortingIsv(strs);
 		// No! Not needed for the encode direction, only for decode.
 
 		java.util.Arrays.sort(strs); // Mutates existing array
 
-		final String[] strsEncodingNum = TxtShuffle.applyACTUALIsvToStringArr(strs, useful);
+		final String[] strsEncodingNum = TxtShuffle.applyIsvToStringArr(strs, useful);
 
 		return strsEncodingNum;
 	}
@@ -110,12 +110,12 @@ public final class TxtShuffle {
 
 	public static BigInteger retrieveNumberFromData(final String[] data)
 	{
-//		final int[] retrievedSortingACTUALIsv = TxtShuffle.findSortingACTUALIsv(data);
-//		final int[] retrievedUseful = TxtShuffle.invertACTUALIsv(retrievedSortingACTUALIsv);
+//		final int[] retrievedSortingIsv = TxtShuffle.findSortingIsv(data);
+//		final int[] retrievedUseful = TxtShuffle.invertIsv(retrievedSortingIsv);
 
-		final int[] retrievedUseful = TxtShuffle.findSortingACTUALSv(data);
+		final int[] retrievedUseful = TxtShuffle.findSortingSv(data);
 
-		final int[] retrievedCompact = VectorConversions.ACTUALisvToCompact(retrievedUseful);
+		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedUseful);
 
 		final BigInteger retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
 
@@ -188,23 +188,23 @@ public final class TxtShuffle {
 
 
 
-	// TODO the final inversion stage in findACTUALIsv can be omitted if we
-	// just apply the ACTUALsv, instead.
+	// TODO the final inversion stage in findIsv can be omitted if we
+	// just apply the sv, instead.
 	// This shouldn't be any harder.
 
 
 /**
  * AVOID this method - we want to avoid doing that invert!
- * Find the ACTUALISV which transforms the original data into its sorted order
+ * Find the ISV which transforms the original data into its sorted order
  * @param inputData
  * @return
  */
-	public static int[] findSortingACTUALIsv_AVOID(final String[] inputData)
+	public static int[] findSortingIsv_AVOID(final String[] inputData)
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
-		// This *isn't* the same thing as the ACTUALISV which transforms the data into its sorted order!
-		// It's actually the *inverse*. So we 'invert' the ACTUALISV, and return that.
+		// This *isn't* the same thing as the ISV which transforms the data into its sorted order!
+		// It's ly the *inverse*. So we 'invert' the ISV, and return that.
 
 		final Integer[] boxedArr = new Integer[inputData.length];
 
@@ -231,7 +231,7 @@ public final class TxtShuffle {
 		// now unboxedArr holds the SV (*not* the ISV)
 
 		// Invert
-		final int[] ret = TxtShuffle.invertACTUALIsvOrSv(unboxedArr);
+		final int[] ret = TxtShuffle.invertIsvOrSv(unboxedArr);
 
 		return ret;
 	}
@@ -243,36 +243,36 @@ public final class TxtShuffle {
 
 /**
  * AVOID this method - we want to avoid doing that invert!
- * Find the ACTUALISV which transforms the original data into its sorted order
+ * Find the ISV which transforms the original data into its sorted order
  * @param inputData
  * @return
  */
-	public static int[] findSortingACTUALSv(final String[] inputData)
+	public static int[] findSortingSv(final String[] inputData)
 	{
 		// We sort, but we sort an int array, treating them as indices into our data.
 		// The result is an int array which specifies the order of the sorted data.
-		// This *isn't* the same thing as the ACTUALISV which transforms the data into its sorted order!
-		// It's actually the *inverse*. Fortunately, this is just as useful.
+		// This *isn't* the same thing as the ISV which transforms the data into its sorted order!
+		// It's ly the *inverse*. Fortunately, this is just as useful.
 
-		final Integer[] ACTUALisvBoxed = new Integer[inputData.length];
+		final Integer[] isvBoxed = new Integer[inputData.length];
 
-		for (int i = 0; i != ACTUALisvBoxed.length; ++i)
+		for (int i = 0; i != isvBoxed.length; ++i)
 		{
-			ACTUALisvBoxed[i] = i;
+			isvBoxed[i] = i;
 		}
 
 		final CustomIntegerComparator c = new CustomIntegerComparator(inputData);
 
-		java.util.Arrays.sort(ACTUALisvBoxed,c);
+		java.util.Arrays.sort(isvBoxed,c);
 
 
 		// Laboriously unbox
 
-		final int[] unboxedArr = new int[ACTUALisvBoxed.length];
+		final int[] unboxedArr = new int[isvBoxed.length];
 
 		for (int i = 0; i != unboxedArr.length; ++i)
 		{
-			unboxedArr[i] = ACTUALisvBoxed[i];
+			unboxedArr[i] = isvBoxed[i];
 		}
 
 		return unboxedArr;
@@ -288,19 +288,19 @@ public final class TxtShuffle {
 	// TODO move to some other class?
 	// If we were using matrix-product to implement our vector swizzling,
 	// we could implement this as a transpose, as permutation matrices are orthogonal matrices.
-	public static int[] invertACTUALIsvOrSv(final int[] ACTUALisv)
+	public static int[] invertIsvOrSv(final int[] isv)
 	{
-		assert( VectorConversions.isValidACTUALSvOrACTUALIsv(ACTUALisv) );
+		assert( VectorConversions.isValidSvOrIsv(isv) );
 
-		final int[] ACTUALsv = new int[ACTUALisv.length];
+		final int[] sv = new int[isv.length];
 
-		for (int i = 0; i != ACTUALisv.length; ++i)
+		for (int i = 0; i != isv.length; ++i)
 		{
-			final int index = ACTUALisv[i];
-			ACTUALsv[index] = i;
+			final int index = isv[i];
+			sv[index] = i;
 		}
 
-		return ACTUALsv;
+		return sv;
 	}
 
 
@@ -310,17 +310,17 @@ public final class TxtShuffle {
 	 * @param input
 	 * @return
 	 */
-	public static String[] applyACTUALIsvToStringArr(final String[] input, final int[] ACTUALisv)
+	public static String[] applyIsvToStringArr(final String[] input, final int[] isv)
 	{
-		assert(input.length == ACTUALisv.length); // explodes if either is null
-		assert(VectorConversions.isValidACTUALSvOrACTUALIsv(ACTUALisv));
+		assert(input.length == isv.length); // explodes if either is null
+		assert(VectorConversions.isValidSvOrIsv(isv));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
 
 		for (int i = 0; i != input.length; ++i)
 		{
-			final int desiredIndex = ACTUALisv[i];
+			final int desiredIndex = isv[i];
 			output[desiredIndex] = input[i];
 		}
 
@@ -330,10 +330,10 @@ public final class TxtShuffle {
 
 
 
-	public static String[] applyACTUALSvToStringArr(final String[] input, final int[] ACTUALsv)
+	public static String[] applySvToStringArr(final String[] input, final int[] sv)
 	{
-		assert(input.length == ACTUALsv.length); // explodes if either is null
-		assert(VectorConversions.isValidACTUALSvOrACTUALIsv(ACTUALsv));
+		assert(input.length == sv.length); // explodes if either is null
+		assert(VectorConversions.isValidSvOrIsv(sv));
 		// ASSUME: no null values in 'input' array... this assumption is probably made elsewhere too
 
 		final String[] output = new String[input.length];
@@ -343,13 +343,13 @@ public final class TxtShuffle {
 			// With an ISV, vec[x] == y means do out[y] = input[x]
 			// with a sv,   vec[x] == y means do out[x] = input[y]
 
-			final int inputIndex = ACTUALsv[i];
+			final int inputIndex = sv[i];
 			final String valToAssign = input[inputIndex];
 			final int outputIndex = i;
 			output[outputIndex] = valToAssign;
 		}
 
-		assert(java.util.Arrays.equals(applyACTUALIsvToStringArr(input,invertACTUALIsvOrSv(ACTUALsv)), output));
+		assert(java.util.Arrays.equals(applyIsvToStringArr(input,invertIsvOrSv(sv)), output));
 
 		return output;
 	}
@@ -368,10 +368,10 @@ public final class TxtShuffle {
 
 
 	/*
-	 * To encode, we want to convert a big number (or whatever) into an ACTUALISV (a 'pivot vector'?),
-	 * then apply that ACTUALISV to the source data. (Assume element-uniqueness for now.)
+	 * To encode, we want to convert a big number (or whatever) into an ISV (a 'pivot vector'?),
+	 * then apply that ISV to the source data. (Assume element-uniqueness for now.)
 	 *
-	 * To decode, we want to figure out what ACTUALISV was applied, then map that back
+	 * To decode, we want to figure out what ISV was applied, then map that back
 	 * to a big number (or whatever).
 	 */
 
@@ -381,7 +381,7 @@ public final class TxtShuffle {
 	 *
 	 * (Ignoring non-unique entities for now.)
 	 * We don't lose anything taking a sort-first approach.... do we?
-	 * (i.e. scrambling the input data wouldn't actually impact our output data...)
+	 * (i.e. scrambling the input data wouldn't ly impact our output data...)
 	 * Shouldn't be any need to do that anyway - just apply the necessary ordering.
 	 *
 	 * No, that doesn't work! We need each order to be uniquely identifiable
@@ -390,12 +390,12 @@ public final class TxtShuffle {
 	 * which we can then reorder in a unique and reversible way.
 	 *
 	 *
-	 * Definition of an ACTUALISV:
+	 * Definition of an ISV:
    *
    * TODO rework this to emphasise the 'inverse' part of ISV
 	 *
-	 * An ACTUALISV is a data structure which maps each entity to its index in the output array.
-	 * Applying an ACTUALISV, then, reorders the input array in a unique way (giving a unique output).
+	 * An ISV is a data structure which maps each entity to its index in the output array.
+	 * Applying an ISV, then, reorders the input array in a unique way (giving a unique output).
 	 *
 	 * Its name reflects the 'swizzle' feature of, for example, OpenCL C, where
 	 *   myVec1.xyz = myVec1.zyx;
@@ -407,19 +407,19 @@ public final class TxtShuffle {
 	 * means we should do
 	 *   outputArray[m] = inputArray[n]
 	 *
-	 * REPHRASE THIS We can represent an ACTUALISV as a number,
-	 * such that each ACTUALISV corresponds to
+	 * REPHRASE THIS We can represent an ISV as a number,
+	 * such that each ISV corresponds to
 	 * exactly one number in an interval from 0 to some max. number,
-	 * and such that each number in that interval corresponds to exactly one ACTUALISV.
+	 * and such that each number in that interval corresponds to exactly one ISV.
 	 *
 	 * To do this mapping, it's easier to first consider the function which takes us from
-	 * the ACTUALISV to the unique number.
+	 * the ISV to the unique number.
 	 *
 	 * REWRITE THIS:
 	 *
 	 * Given an ACUTALISV of length L:
 	 * set up an accumulator, initializing at 0
-	 * iterate through the ACTUALISV, and for each element:
+	 * iterate through the ISV, and for each element:
 	 *   'multiply up' the accumulator to 'make space' for this slot.
 	 *   For the first element that means do nothing, for subsequent ones,
 	 *   multiply by MAXPOSSIBLE-1....
@@ -442,17 +442,17 @@ public final class TxtShuffle {
 	 * iterating through
 	 * the input array and
 	 *
-	 * Decoding an ACTUALISV:
+	 * Decoding an ISV:
 	 * Given a map of n many elements,
 	 *
 	 *
 	 *
-	 * Generating the ACTUALISV:
+	 * Generating the ISV:
 	 *
 	 *
 	 * So, using the intrinsic approach:
 	 * 1.   Sort the annotated array.
-	 * 2.   Consulting the ACTUALISV and the now-sorted annotated array, write the output data
+	 * 2.   Consulting the ISV and the now-sorted annotated array, write the output data
 	 */
 
 //	public static void main(String[] args) {

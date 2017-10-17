@@ -34,29 +34,29 @@ public final class TxtShuffleTests {
 	@Test
 	public final void testReversal() {
 
-		final int[] ACTUALisv = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // non involutory
+		final int[] isv = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // non involutory
 
-		final int[] ACTUALsv = TxtShuffle.invertACTUALIsvOrSv(ACTUALisv);
+		final int[] sv = TxtShuffle.invertIsvOrSv(isv);
 
-		final boolean shouldBeFalse = java.util.Arrays.equals(ACTUALisv, ACTUALsv);
+		final boolean shouldBeFalse = java.util.Arrays.equals(isv, sv);
 
 		org.junit.Assert.assertFalse(shouldBeFalse);
 
-		final int[] backAgain = TxtShuffle.invertACTUALIsvOrSv(ACTUALsv);
+		final int[] backAgain = TxtShuffle.invertIsvOrSv(sv);
 
-		org.junit.Assert.assertArrayEquals(ACTUALisv, backAgain);
+		org.junit.Assert.assertArrayEquals(isv, backAgain);
 
-		// TxtShuffle.applyACTUALIsvToStringArr(input, ACTUALisv)
+		// TxtShuffle.applyIsvToStringArr(input, isv)
 	}
 
 	@Test
-	public final void testFindSortingACTUALIsv() throws IOException
+	public final void testFindSortingIsv() throws IOException
 	{
 		final String[] strs = TxtShuffle.readFileIntoStringArr("example1.txt");
 
-		final int[] filesSortingACTUALIsv = TxtShuffle.findSortingACTUALIsv_AVOID(strs);
+		final int[] filesSortingIsv = TxtShuffle.findSortingIsv_AVOID(strs);
 
-		org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(filesSortingACTUALIsv));
+		org.junit.Assert.assertTrue(VectorConversions.isValidSvOrIsv(filesSortingIsv));
 
 		// // // TODO avoid the needless invert
 
@@ -66,18 +66,18 @@ public final class TxtShuffleTests {
 		final boolean shouldBeFalse = java.util.Arrays.equals(strs, strsSorted);
 		org.junit.Assert.assertFalse(shouldBeFalse);
 
-		// // // TODO try applyACTUALSvToStringArr
+		// // // TODO try applySvToStringArr
 
 		final String[] strsAfterSortingOrder =
-		  TxtShuffle.applyACTUALIsvToStringArr(strs, filesSortingACTUALIsv);
+		  TxtShuffle.applyIsvToStringArr(strs, filesSortingIsv);
 
 		{
-			final int[] filesSortingACTUALSv = TxtShuffle.findSortingACTUALSv(strs);
+			final int[] filesSortingSv = TxtShuffle.findSortingSv(strs);
 
-			org.junit.Assert.assertTrue(VectorConversions.isValidACTUALSvOrACTUALIsv(filesSortingACTUALSv));
+			org.junit.Assert.assertTrue(VectorConversions.isValidSvOrIsv(filesSortingSv));
 
 			final String[] strsAfterSortingOrder_ =
-					  TxtShuffle.applyACTUALSvToStringArr(strs, filesSortingACTUALSv);
+					  TxtShuffle.applySvToStringArr(strs, filesSortingSv);
 
 			org.junit.Assert.assertArrayEquals(strsAfterSortingOrder, strsAfterSortingOrder_);
 		}
@@ -85,10 +85,10 @@ public final class TxtShuffleTests {
 		org.junit.Assert.assertArrayEquals(strsSorted, strsAfterSortingOrder);
 
 		{
-			final int[] ACTUALsv = TxtShuffle.invertACTUALIsvOrSv(filesSortingACTUALIsv);
+			final int[] sv = TxtShuffle.invertIsvOrSv(filesSortingIsv);
 
 			// we apply the sv treating it as an ISV, thus reversing the sorting
-			final String[] scrambledBack = TxtShuffle.applyACTUALIsvToStringArr(strsAfterSortingOrder, ACTUALsv);
+			final String[] scrambledBack = TxtShuffle.applyIsvToStringArr(strsAfterSortingOrder, sv);
 			org.junit.Assert.assertArrayEquals(strs, scrambledBack);
 		}
 	}
@@ -141,14 +141,14 @@ public final class TxtShuffleTests {
 
 		//////////////////////////////////////////////////////////////////////
 
-		final int[] useful = VectorConversions.compactToACTUALIsv(compact);
+		final int[] useful = VectorConversions.compactToIsv(compact);
 
-		// final int[] ACTUALisvForFilesOrder = TxtShuffle.findSortingACTUALIsv(strs); // NO! not needed for the encode direction, only for decode!
+		// final int[] isvForFilesOrder = TxtShuffle.findSortingIsv(strs); // NO! not needed for the encode direction, only for decode!
 
 		final String[] strsSorted = strs.clone();
 		java.util.Arrays.sort(strsSorted);
 
-		final String[] strsEncodingNum = TxtShuffle.applyACTUALIsvToStringArr(strsSorted, useful);
+		final String[] strsEncodingNum = TxtShuffle.applyIsvToStringArr(strsSorted, useful);
 
 		{
 			final boolean shouldBeFalse = java.util.Arrays.equals(strs, strsEncodingNum);
@@ -162,14 +162,14 @@ public final class TxtShuffleTests {
 
 // Now let's go back and retrieve the number
 
-//		final int[] retrievedSortingACTUALIsv = TxtShuffle.findSortingACTUALIsv_AVOID(strsEncodingNum);
-//		final int[] retrievedUseful = TxtShuffle.invertACTUALIsv(retrievedSortingACTUALIsv);
+//		final int[] retrievedSortingIsv = TxtShuffle.findSortingIsv_AVOID(strsEncodingNum);
+//		final int[] retrievedUseful = TxtShuffle.invertIsv(retrievedSortingIsv);
 
-		final int[] retrievedUseful = TxtShuffle.findSortingACTUALSv(strsEncodingNum);
+		final int[] retrievedUseful = TxtShuffle.findSortingSv(strsEncodingNum);
 
 		org.junit.Assert.assertArrayEquals(retrievedUseful, useful);
 
-		final int[] retrievedCompact = VectorConversions.ACTUALisvToCompact(retrievedUseful);
+		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedUseful);
 
 		org.junit.Assert.assertArrayEquals(compact, retrievedCompact);
 
