@@ -141,14 +141,14 @@ public final class TxtShuffleTests {
 
 		//////////////////////////////////////////////////////////////////////
 
-		final int[] useful = VectorConversions.compactToIsv(compact);
+		final int[] isvFromCompact = VectorConversions.compactToIsv(compact);
 
 		// final int[] isvForFilesOrder = TxtShuffle.findSortingIsv(strs); // NO! not needed for the encode direction, only for decode!
 
 		final String[] strsSorted = strs.clone();
 		java.util.Arrays.sort(strsSorted);
 
-		final String[] strsEncodingNum = TxtShuffle.applyIsvToStringArr(strsSorted, useful);
+		final String[] strsEncodingNum = TxtShuffle.applyIsvToStringArr(strsSorted, isvFromCompact);
 
 		{
 			final boolean shouldBeFalse = java.util.Arrays.equals(strs, strsEncodingNum);
@@ -165,11 +165,11 @@ public final class TxtShuffleTests {
 //		final int[] retrievedSortingIsv = TxtShuffle.findSortingIsv_AVOID(strsEncodingNum);
 //		final int[] retrievedUseful = TxtShuffle.invertIsv(retrievedSortingIsv);
 
-		final int[] retrievedUseful = TxtShuffle.findSortingSv(strsEncodingNum);
+		final int[] foundSortingSv = TxtShuffle.findSortingSv(strsEncodingNum);
 
-		org.junit.Assert.assertArrayEquals(retrievedUseful, useful);
+		org.junit.Assert.assertArrayEquals(foundSortingSv, isvFromCompact);
 
-		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedUseful);
+		final int[] retrievedCompact = VectorConversions.isvToCompact(foundSortingSv);
 
 		org.junit.Assert.assertArrayEquals(compact, retrievedCompact);
 
