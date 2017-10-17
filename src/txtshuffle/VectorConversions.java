@@ -9,10 +9,6 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 
 // TODO no-allocate versions of the methods?
 
-// TODO machinery for applying an 'shuffle vector' (a.k.a. a 'useful' vector)
-// TODO machinery to discover the shuffle vector for an array of unique comparable values
-// TODO machinery to compose shuffle vectors? invert them?
-
 
 // TODO think about scaling the algorithm. Mult. is O(n^2). Perhaps break up the problem
 // and deal with the order of sub-sequences, and also with their ordering, etc, in a 'tiered' way...
@@ -20,14 +16,8 @@ import txtshuffle.TxtShuffle.NumberTooGreatException;
 // Or is the mult. not so bad, as the smaller of the two operands is bounded by n (the row count)?
 
 
-// TODO composition of ISVs. Is this preferable to repeated transformations? Probably about the same...
-
-
-// TODO assert well-formed ISVs. No repetition, no out-of-bounds values.
-
 // TODO eliminate pointless intermediate ArrayLists and boxing
 
-// TODO move away from int and to either long or BigNumber
 
 public final class VectorConversions {
 
@@ -365,8 +355,8 @@ public final class VectorConversions {
 	{
 		assert(isValidCompactVector(compactVector));
 
-		// First set up the vector augmentation, as with usefulToCompact
-		// TODO comment this properly
+		// First set up the 'vector augmentation' full of the indices
+		// of the real data in their array
 		final int sz = compactVector.length;
 
 		// TODO this is a disastrous choice of data structure!
