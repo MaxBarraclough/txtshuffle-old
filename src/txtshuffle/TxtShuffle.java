@@ -94,14 +94,14 @@ public final class TxtShuffle {
 
 		//////////////////////////////////////////////////////////////
 
-		final int[] useful = VectorConversions.compactToIsv(compact);
+		final int[] isv = VectorConversions.compactToIsv(compact);
 
 		// final int[] isvForFilesOrder = TxtShuffle.findSortingIsv(strs);
 		// No! Not needed for the encode direction, only for decode.
 
 		java.util.Arrays.sort(strs); // Mutates existing array
 
-		final String[] strsEncodingNum = TxtShuffle.applyIsvToStringArr(strs, useful);
+		final String[] strsEncodingNum = TxtShuffle.applyIsvToStringArr(strs, isv);
 
 		return strsEncodingNum;
 	}
@@ -111,11 +111,13 @@ public final class TxtShuffle {
 	public static BigInteger retrieveNumberFromData(final String[] data)
 	{
 //		final int[] retrievedSortingIsv = TxtShuffle.findSortingIsv(data);
-//		final int[] retrievedUseful = TxtShuffle.invertIsv(retrievedSortingIsv);
+//		final int[] retrievedSortingSv = TxtShuffle.invertIsv(retrievedSortingIsv); // not needed
 
-		final int[] retrievedUseful = TxtShuffle.findSortingSv(data);
 
-		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedUseful);
+		// This approach uses no inversions
+		final int[] retrievedSortingSv = TxtShuffle.findSortingSv(data);
+
+		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedSortingSv);
 
 		final BigInteger retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
 
