@@ -89,11 +89,9 @@ public final class TxtShuffle {
 //			compact[i] = compact_BIs[i].intValue();
 //		}
 
-		//////////////////////////////////////////////////////////////
-
 		final int[] isv = VectorConversions.compactToIsv(compact);
 
-		// final int[] isvForFilesOrder = TxtShuffle.findSortingIsv(strs);
+		// final int[] sortingIsv = TxtShuffle.findSortingIsv(strs);
 		// No! Not needed for the encode direction, only for decode.
 
 		java.util.Arrays.sort(strs); // Mutates existing array
@@ -111,26 +109,22 @@ public final class TxtShuffle {
 //		final int[] retrievedSortingSv = TxtShuffle.invertIsv(retrievedSortingIsv); // not needed
 
 
-
-		// // // TODO FIX THE BAD NAMING? SOMETHING IS CLEARLY WRONG HERE!!
-
 		// This approach uses no inversions
-		final int[] retrievedSortingSv = TxtShuffle.findSortingSv(data);
+		// The 'sorting SV' is the same thing as the 'scrambling ISV'
+		final int[] retrievedSortingSv_ScramblingIsv = TxtShuffle.findSortingSv(data);
 
-
-		//////////////////////////////////////// we are indeed dealing with an SV and not an ISV
 if (false) {
 		String[] dataCopy = data.clone();
 		java.util.Arrays.sort(dataCopy);
 
 		String[] dataCopy2 = data.clone();
-		String[] out = TxtShuffle.applySvToStringArr(dataCopy2, retrievedSortingSv);
+		String[] out = TxtShuffle.applySvToStringArr(dataCopy2, retrievedSortingSv_ScramblingIsv);
 
 		boolean b = java.util.Arrays.equals(out, dataCopy);
 }
 
-
-		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedSortingSv);
+		// Go from scrambling ISV to compact vector
+		final int[] retrievedCompact = VectorConversions.isvToCompact(retrievedSortingSv_ScramblingIsv);
 
 		final BigInteger retrievedNum = VectorConversions.compactVectorToInt(retrievedCompact);
 
