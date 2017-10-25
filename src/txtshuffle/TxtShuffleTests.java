@@ -34,6 +34,12 @@ public final class TxtShuffleTests {
 	@Test
 	public final void testReversal() {
 
+		/////////////// TEST LINKAGE
+
+		final org.apache.commons.cli.Options opt = new org.apache.commons.cli.Options();
+		////////////////////////////
+
+
 		final int[] isv = new int[] {3, 8, 5, 9, 4, 7, 6, 0, 2, 1}; // non involutory
 
 		final int[] sv = TxtShuffle.invertIsvOrSv(isv);
